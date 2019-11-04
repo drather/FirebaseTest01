@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="16dp"
+    android:weightSum="10"
+    android:background="@color/colorBackground"
+
+    tools:context=".TemperatureActivity">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo2"></ImageView>
+
+    <TextView
+        android:id="@+id/textView_temperature"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="TEMPERATURE"
+        android:gravity="center"
+        android:layout_weight="0.5"
+        android:background="@color/colorWhite">
+    </TextView>
+
+    <TextView
+        android:id="@+id/textView_motion"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="MOTION"
+        android:gravity="center"
+        android:layout_weight="0.5"
+        android:background="@color/colorWhite"
+        android:layout_marginTop="20dp">
+    </TextView>
+
+    ></LinearLayout>

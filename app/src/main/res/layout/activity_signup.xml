@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="16dp"
+    android:weightSum="10"
+    android:background="@color/colorBackground"
+    tools:context=".SignupActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo2"></ImageView>
+
+    <EditText
+        android:id="@+id/editText_candID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="아이디"
+        >
+    </EditText>
+
+    <EditText
+        android:id="@+id/editText_candPW"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="비밀번호"
+        ></EditText>
+
+    <EditText
+        android:id="@+id/editText_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="이름"
+        ></EditText>
+
+    <EditText
+        android:id="@+id/editText_phoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="핸드폰 번호"
+        ></EditText>
+
+    <EditText
+        android:id="@+id/editText_carNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="차량 번호"
+        ></EditText>
+
+    <EditText
+        android:id="@+id/editText_carType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="차종"
+        ></EditText>
+
+    <Button
+        android:id="@+id/btn_submitSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="확인"
+        android:layout_gravity="center"
+        ></Button>
+
+</LinearLayout>

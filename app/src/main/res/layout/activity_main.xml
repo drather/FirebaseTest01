@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="16dp"
+    android:weightSum="10"
+    android:background="@color/colorBackground"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo2"></ImageView>
+
+    <TextView
+        android:id="@+id/textView_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="데이터 표시"
+        android:gravity="center"
+        ></TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="안녕하세요 회원님"
+        android:gravity="center"
+        ></TextView>
+
+    <Button
+        android:id="@+id/btn_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="온도 확인"
+        android:layout_gravity="center"
+        ></Button>
+
+    <Button
+        android:id="@+id/btn_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CCTV"
+        android:layout_gravity="center"
+        ></Button>
+
+    <Button
+        android:id="@+id/btn_showProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:layout_gravity="center"
+        ></Button>
+
+    <TextView
+        android:id="@+id/textView_test1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="데이터 표시1"
+        android:gravity="center"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/textView_test2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="데이터 표시2"
+        android:gravity="center"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/textView_test3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="데이터 표시3"
+        android:gravity="center"
+        ></TextView>
+
+</LinearLayout>
