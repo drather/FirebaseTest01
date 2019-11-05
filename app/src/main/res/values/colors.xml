@@ -3,8 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorBackground">#F08080</color>
-    <color name="colorLoginBar">#FFA500</color>
-    <color name="colorSignUpBar">#CD5C5C</color>
+    <color name="colorBackground">#FFD8D9</color>
+    <color name="colorLoginBar">#F7DA8B</color>
+    <color name="colorSignUpBar">#EC898C</color>
     <color name="colorWhite">#FFFFFF</color>
 </resources>
