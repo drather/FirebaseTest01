@@ -1,7 +1,15 @@
 package com.example.firebasetest01;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -10,8 +18,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,26 +38,49 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = database.getReference();
 
+    public static final String NOTIFICATION_CHANNEL_ID = "10001";
+    private int count = 0;
+
 
     String ID = "";
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-//    UserData user = new UserData();
-
-//    TextView textView_test2 = findViewById(R.id.textView_test2);
-//    TextView textView_test3 = findViewById(R.id.textView_test3);
-
+//    //notification01
+//    NotificationManager notificationManager;
+//    NotificationChannel notificationChannel;
+//    PendingIntent intent1;
+//    @RequiresApi(api = Build.VERSION_CODES.M)
+//    //notification01 여기까지
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        //notification2
+//        notificationChannel = new NotificationChannel("channel_id", "channel_name", NotificationManager.IMPORTANCE_DEFAULT);
+//        intent1 = PendingIntent.getActivity(this, 0,
+//                new Intent(getApplicationContext(), NotificationTestActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+//        Notification.Builder builder = new Notification.Builder(this)
+//                .setSmallIcon(R.drawable.logo2) // 아이콘 설정하지 않으면 오류남
+//                .setDefaults(Notification.DEFAULT_ALL)
+//                .setContentTitle("제발 떠라") // 제목 설정
+//                .setContentText("제발 떠라") // 내용 설정
+//                .setTicker("제발 떠라") // 상태바에 표시될 한줄 출력
+//                .setAutoCancel(true)
+//                .setContentIntent(intent1);
+//        notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+//        notificationManager.notify(0, builder.build());
+//        //notification2 여기까지
 
+
+        //notification03 시작
+        NotificationSomethings();
 
         Button btn_temperature =  findViewById(R.id.btn_temperature);
         Button btn_showProfile = findViewById(R.id.btn_showProfile);
         Button btn_camera = findViewById(R.id.btn_camera);
         TextView textView_test2 = findViewById(R.id.textView_test2);
+
+        Button btn_makeNotification = findViewById(R.id.btn_makeNotification);
 
         Intent intent = getIntent();
         if (intent.getExtras() != null) {
@@ -64,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
 //       UserData currentUser = new UserData();
 
         //여기부터 데이터 읽어오는 부분
-//        databaseReference.child("User List").child(tempID).child("userEmail").addListenerForSingleValueEvent(new ValueEventListener() {
         databaseReference.child("User List").child(ID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -115,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         btn_camera.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CameraActivity.class);
@@ -130,6 +161,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 intent.putExtra("userEmail", ID);
                 startActivity(intent);
+            }
+        });
+
+        btn_makeNotification.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // 버튼을 누를때마다 count 를 증가시며 최근에 보낸 노티피케이션만 사용자의 탭 대기중인지 테스트
+                count++;
+                NotificationSomethings();
             }
         });
     }
@@ -157,4 +196,45 @@ public class MainActivity extends AppCompatActivity {
         alBuilder.setTitle("프로그램 종료");
         alBuilder.show(); // AlertDialog.Bulider로 만든 AlertDialog를 보여준다.
     }
+
+        public void NotificationSomethings() {
+
+        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent notificationIntent = new Intent(this, NotificationTestActivity.class);
+        notificationIntent.putExtra("notificationId", count); //전달할 값
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK) ;
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground)) //BitMap 이미지 요구
+                .setContentTitle("상태바 드래그시 보이는 타이틀")
+                .setContentText("상태바 드래그시 보이는 서브타이틀")
+                // 더 많은 내용이라서 일부만 보여줘야 하는 경우 아래 주석을 제거하면 setContentText에 있는 문자열 대신 아래 문자열을 보여줌
+                //.setStyle(new NotificationCompat.BigTextStyle().bigText("더 많은 내용을 보여줘야 하는 경우..."))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent) // 사용자가 노티피케이션을 탭시 ResultActivity로 이동하도록 설정
+                .setAutoCancel(true);
+
+        //OREO API 26 이상에서는 채널 필요
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            builder.setSmallIcon(R.drawable.ic_launcher_foreground); //mipmap 사용시 Oreo 이상에서 시스템 UI 에러남
+            CharSequence channelName  = "노티페케이션 채널";
+            String description = "오레오 이상을 위한 것임";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName , importance);
+            channel.setDescription(description);
+
+            // 노티피케이션 채널을 시스템에 등록
+            assert notificationManager != null;
+            notificationManager.createNotificationChannel(channel);
+
+        }else builder.setSmallIcon(R.mipmap.ic_launcher); // Oreo 이하에서 mipmap 사용하지 않으면 Couldn't create icon: StatusBarIcon 에러남
+
+        assert notificationManager != null;
+        notificationManager.notify(1234, builder.build()); // 고유숫자로 노티피케이션 동작시킴
+    }
 }
+

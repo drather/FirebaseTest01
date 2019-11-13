@@ -44,8 +44,17 @@ public class LoginActivity extends AppCompatActivity {
 
         // 파이어베이스 인증 객체 선언
         firebaseAuth = FirebaseAuth.getInstance();
+        // 아이디와 패스워드 받는 부분
         editTextEmail = findViewById(R.id.et_eamil);
         editTextPassword = findViewById(R.id.et_password);
+        // 저장하기 위해 sharedPreferences 받는 부분
+        SharedPreferences sf = getSharedPreferences("sFile", MODE_PRIVATE);
+        String id = sf.getString("id","");
+        String pw = sf.getString("pw", "");
+
+        editTextEmail.setText(id);
+        editTextPassword.setText(pw);
+
         //수정한 부분
         Button btn_signUp = findViewById(R.id.btn_signUp);
 
@@ -57,6 +66,19 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        SharedPreferences sharedPreferences = getSharedPreferences("sFile", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String inputId = editTextEmail.getText().toString();
+        String inputPW = editTextPassword.getText().toString();
+        editor.putString("id", inputId);
+        editor.putString("pw", inputPW);
+
+        editor.commit();
     }
 
     @Override

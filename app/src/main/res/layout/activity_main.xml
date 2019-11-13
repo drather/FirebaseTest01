@@ -30,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="안녕하세요 회원님"
+        android:fontFamily="@font/cookierun_black"
         android:gravity="center"
         ></TextView>
 
@@ -54,6 +55,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Profile"
+        android:layout_gravity="center"
+        ></Button>
+
+    <Button
+        android:id="@+id/btn_makeNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="notification 발생"
         android:layout_gravity="center"
         ></Button>
 

@@ -40,6 +40,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
 
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
 
 
     //회원 인증

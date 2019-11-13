@@ -74,6 +74,7 @@ public class SignupActivity extends AppCompatActivity {
                         String carNum = editText_carNumber.getText().toString();
                         String type = editText_carType.getText().toString();
 
+                        //이거 createUser() 안으로 옮기는게 좋을듯
                         writeNewUser(userEmail, name, phoneNum, carNum, type);
                 }
 
@@ -82,8 +83,8 @@ public class SignupActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
+
     public void signup(View view) {
         email = editText_candID.getText().toString();
         password = editText_candPW.getText().toString();

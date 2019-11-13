@@ -35,6 +35,10 @@
         <activity android:name=".ProfileActivity">
         </activity>
 
+        <activity android:name=".NotificationTestActivity">
+
+        </activity>
+
     </application>
 
 </manifest>
