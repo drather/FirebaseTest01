@@ -47,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageView ImageView_btn1_temperature = findViewById(R.id.ImageView_btn1_temperature);
-        ImageView ImageView_btn2_camera = findViewById(R.id.ImageView_btn2_camera);
-        ImageView ImageView_btn3_profile = findViewById(R.id.ImageView_btn3_profile);
+        ImageView ImageView_btn1_temperature = (ImageView) findViewById(R.id.ImageView_btn1_temperature);
+        ImageView ImageView_btn2_camera = (ImageView) findViewById(R.id.ImageView_btn2_camera);
+        ImageView ImageView_btn3_profile = (ImageView) findViewById(R.id.ImageView_btn3_profile);
 
         Intent intent = getIntent();
 
@@ -93,8 +93,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     @Override
     public void onBackPressed() {

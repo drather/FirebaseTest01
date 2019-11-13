@@ -28,11 +28,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-
-
-    public class TemperatureActivity extends AppCompatActivity {
-        private FirebaseDatabase database = FirebaseDatabase.getInstance();
-        private DatabaseReference databaseReference = database.getReference();
+public class TemperatureActivity extends AppCompatActivity {
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = database.getReference();
 
     public static final String NOTIFICATION_CHANNEL_ID = "10001";
     private int count = 0;
@@ -74,9 +72,9 @@ import com.google.firebase.database.ValueEventListener;
                 }
                 else if (data.equals("true")) {
                     textView_motion.setText("차량에 움직임이 감지되고 있습니다.");
-                    notifySomething("사람있다");
+//                    notifySomething("사람있다");
 
-                }
+            }
                 else {
                     textView_motion.setText("이도저도 아님, 오류인듯");
                 }
