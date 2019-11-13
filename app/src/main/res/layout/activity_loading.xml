@@ -15,18 +15,17 @@
     tools:context=".LoadingActivity">
 
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
         android:src="@drawable/activity_loading_box"
         android:layout_gravity="center"
         ></ImageView>
 
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="428dp"
-        android:gravity="center_vertical"
-        android:src="@drawable/loadinglogo"
+        android:layout_width="330dp"
+        android:layout_height="400dp"
         android:layout_gravity="center"
-        ></ImageView>
+        android:gravity="center_vertical"
+        android:src="@drawable/activity_main_profile"></ImageView>
 
 </LinearLayout>
