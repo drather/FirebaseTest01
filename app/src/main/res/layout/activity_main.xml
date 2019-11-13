@@ -14,63 +14,84 @@
     tools:context=".MainActivity">
 
     <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:src="@drawable/activity_main_box"></ImageView>
+
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="280dp"
         android:layout_weight="3"
-        android:src="@drawable/activity_main_profile">
-    </ImageView>
+        android:src="@drawable/activity_main_logo3"></ImageView>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="6"
-        android:weightSum="1"
-        android:orientation="vertical">
+<!--    <ImageView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:layout_weight="3"-->
+<!--        android:src="@drawable/activity_main_profile">-->
+<!--    </ImageView>-->
 
-        <ImageView
-            android:id="@+id/imageView_hello"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.3"
-            android:src="@drawable/activity_main_hello"
-            ></ImageView>
+
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="5"-->
+<!--        android:orientation="vertical"-->
+<!--        android:weightSum="1">-->
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/imageView_hello"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:layout_weight="0.3"-->
+        <!--            android:src="@drawable/activity_main_hello"-->
+        <!--            ></ImageView>-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:src="@drawable/activity_main_box"></ImageView>
 
         <ImageView
             android:id="@+id/ImageView_btn1_temperature"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.25"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_marginLeft="70dp"
+            android:layout_marginTop="0dp"
             android:layout_marginRight="70dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/activity_main_temperature"
-            ></ImageView>
+            android:layout_weight="0.25"
+            android:src="@drawable/activity_main_temperature"></ImageView>
 
         <ImageView
-            android:id="@+id/ImageView_btn2_camera"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.25"
-            android:layout_marginLeft="70dp"
-            android:layout_marginRight="70dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:src="@drawable/activity_main_box"></ImageView>
 
-            android:src="@drawable/activity_main_camera"
-            ></ImageView>
+    <ImageView
+        android:id="@+id/ImageView_btn2_camera"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="70dp"
+        android:layout_weight="0.25"
+        android:src="@drawable/activity_main_camera"></ImageView>
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:src="@drawable/activity_main_box"></ImageView>
 
         <ImageView
             android:id="@+id/ImageView_btn3_profile"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.25"
+            android:layout_height="50dp"
             android:layout_marginLeft="70dp"
+            android:layout_marginTop="0dp"
             android:layout_marginRight="70dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/activity_main_user"
-        ></ImageView>
+            android:layout_weight="0.25"
+            android:src="@drawable/activity_main_user"></ImageView>
 
 
-        </LinearLayout>
+
 
 
 </LinearLayout>
