@@ -56,7 +56,7 @@
             android:id="@+id/imageView_temperatureBOX"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/activity_temperature_tempbox"
+            android:src="@drawable/activity_temperature_temperaturebox"
             android:layout_centerInParent="true"
             android:layout_weight="3">
             ></ImageView>
