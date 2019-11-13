@@ -14,14 +14,19 @@
     android:clickable="true"
     tools:context=".LoadingActivity">
 
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:src="@drawable/activity_loading_box"
+        android:layout_gravity="center"
+        ></ImageView>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_width="300dp"
+        android:layout_height="428dp"
         android:gravity="center_vertical"
-        android:src="@drawable/logo"
-
+        android:src="@drawable/loadinglogo"
+        android:layout_gravity="center"
         ></ImageView>
 
 </LinearLayout>
