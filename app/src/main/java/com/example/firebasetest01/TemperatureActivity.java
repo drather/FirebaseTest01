@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,8 +28,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 
 public class TemperatureActivity extends AppCompatActivity {
+
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = database.getReference();
 
@@ -42,6 +46,9 @@ public class TemperatureActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String ID = intent.getStringExtra("userEmail");
+        Log.d("TEMPERATURE_ACTIVITY", "userEmail: " + ID);
+        TextView text_test = (TextView) findViewById(R.id.text_test);
+        text_test.setText(ID);
 
         databaseReference.child("User List").child(ID).child("temperature").addValueEventListener(new ValueEventListener() {
             @Override

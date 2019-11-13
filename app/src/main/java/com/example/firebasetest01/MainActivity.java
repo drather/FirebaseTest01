@@ -52,22 +52,11 @@ public class MainActivity extends AppCompatActivity {
         ImageView ImageView_btn3_profile = (ImageView) findViewById(R.id.ImageView_btn3_profile);
 
         Intent intent = getIntent();
+        ID = intent.getStringExtra("userEmail");
+        ID = ID.replace('@', '_');
+        ID = ID.replace('.', '_');
 
-        //여기부터 데이터 읽어오는 부분
-        databaseReference.child("User List").child(ID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //이 밑에 5줄은 getValue()시험
-                Log.d("userEmail,Main", "user name is: " + "not yet");
-                UserData userDataFromDB = dataSnapshot.getValue(UserData.class);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        Log.d("MAIN_ACTIVITY", "userEmail: " + ID);
 
         ImageView_btn1_temperature.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
