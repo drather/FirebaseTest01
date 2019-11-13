@@ -50,32 +50,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/et_password"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
-        <Button
-            android:id="@+id/btn_signIn"
+        <ImageView
+            android:id="@+id/img_signIn"
             android:text="@string/signin"
             android:onClick="signIn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:background="@color/colorLoginBar"
-            android:layout_marginTop="20dp"
+            android:src="@drawable/activity_login_loginbar"
+            android:clickable="true"
             />
 
-        <Button
+        <ImageView
             android:id="@+id/btn_signUp"
-            android:text="@string/signup"
-
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="0dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:background="@color/colorSignUpBar"
-            android:layout_marginTop="20dp"/>
+            android:src="@drawable/activity_login_signupbar"
+            android:clickable="true"
+            android:layout_weight="0.3"
+            />
 
     </LinearLayout>
 

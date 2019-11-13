@@ -7,6 +7,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword.setText(pw);
 
         //수정한 부분
-        Button btn_signUp = findViewById(R.id.btn_signUp);
+        ImageView btn_signUp = findViewById(R.id.btn_signUp);
 
         btn_signUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
