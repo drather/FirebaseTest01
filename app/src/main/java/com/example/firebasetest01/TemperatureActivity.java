@@ -47,19 +47,18 @@ public class TemperatureActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String ID = intent.getStringExtra("userEmail");
         Log.d("TEMPERATURE_ACTIVITY", "userEmail: " + ID);
-        TextView text_test = (TextView) findViewById(R.id.text_test);
-        text_test.setText(ID);
+
 
         databaseReference.child("User List").child(ID).child("temperature").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String dataFromDB = dataSnapshot.getValue().toString();
                 TextView textView_temperature = findViewById(R.id.textView_temperature);
-                textView_temperature.setText("현재 차량의 온도는 " + dataFromDB + "도 입니다");
+                textView_temperature.setText("\n\n" + dataFromDB + "도");
 
                 int data = Integer.parseInt(dataFromDB);
                 if (data > 5) {
-                    notifySomething("온도에 문제있다");
+                    notifySomething("차 내 온도가 너무 높습니다");
                 }
             }
 
@@ -79,8 +78,7 @@ public class TemperatureActivity extends AppCompatActivity {
                 }
                 else if (data.equals("true")) {
                     textView_motion.setText("차량에 움직임이 감지되고 있습니다.");
-//                    notifySomething("사람있다");
-
+                    notifySomething("차 내에 움직임이 감지되고 있습니다");
             }
                 else {
                     textView_motion.setText("이도저도 아님, 오류인듯");

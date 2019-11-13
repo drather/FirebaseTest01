@@ -26,6 +26,8 @@
         android:layout_height="400dp"
         android:layout_gravity="center"
         android:gravity="center_vertical"
-        android:src="@drawable/activity_main_profile"></ImageView>
+        android:src="@drawable/activity_main_profile">
+
+    </ImageView>
 
 </LinearLayout>
