@@ -48,7 +48,7 @@
         <!--            ></ImageView>-->
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:src="@drawable/activity_main_box"></ImageView>
 
         <ImageView
@@ -91,7 +91,10 @@
             android:layout_weight="0.25"
             android:src="@drawable/activity_main_user"></ImageView>
 
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:src="@drawable/activity_main_box"></ImageView>
 
 
 
