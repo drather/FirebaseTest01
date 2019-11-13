@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:weightSum="10"
+    tools:context=".NotificationTestActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/temperature2"
+        android:layout_weight="3"
+
+    ></ImageView>
+    <TextView
+        android:id="@+id/textView_notificationResult"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="푸시 누르면 일로 늘어와야핣니다이"
+        ></TextView>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/relativeLayout_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/temperature"
+            ></ImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="현재 온도"
+            android:layout_alignLeft="@+id/relativeLayout_image"
+            android:layout_alignTop="@+id/relativeLayout_image"
+            android:layout_alignRight="@+id/relativeLayout_image"
+            android:layout_alignBottom="@+id/relativeLayout_image"
+            ></TextView>
+        ></RelativeLayout>
+</LinearLayout>
