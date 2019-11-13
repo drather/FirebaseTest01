@@ -9,6 +9,7 @@
     android:paddingLeft="12dp"
     android:paddingRight="12dp"
     android:paddingTop="16dp"
+    android:paddingBottom="16dp"
     android:weightSum="10"
     android:background="@color/colorBackground"
     tools:context=".MainActivity">
@@ -16,7 +17,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:src="@drawable/activity_main_box"></ImageView>
+        android:src="@drawable/activity_main_box"
+        ></ImageView>
 
     <ImageView
         android:layout_width="wrap_content"
