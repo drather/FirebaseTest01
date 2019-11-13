@@ -58,7 +58,7 @@
             android:layout_marginTop="0dp"
             android:layout_marginRight="70dp"
             android:layout_weight="0.25"
-            android:src="@drawable/activity_main_temperature"></ImageView>
+            android:src="@drawable/selector_temperature_image"></ImageView>
 
         <ImageView
             android:layout_width="match_parent"

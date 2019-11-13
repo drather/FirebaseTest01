@@ -22,7 +22,7 @@
         ></ImageView>
 
     <ImageView
-        android:layout_width="330dp"
+        android:layout_width="300dp"
         android:layout_height="400dp"
         android:layout_gravity="center"
         android:gravity="center_vertical"
