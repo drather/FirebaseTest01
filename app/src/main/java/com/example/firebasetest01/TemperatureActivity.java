@@ -32,7 +32,7 @@ import org.w3c.dom.Text;
 
 
 public class TemperatureActivity extends AppCompatActivity {
-
+    final private String TAG = "Temperature_Activity";
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = database.getReference();
 
@@ -46,7 +46,7 @@ public class TemperatureActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String ID = intent.getStringExtra("userEmail");
-        Log.d("TEMPERATURE_ACTIVITY", "userEmail: " + ID);
+        Log.d(TAG, "userEmail: " + ID);
 
 
         databaseReference.child("User List").child(ID).child("temperature").addValueEventListener(new ValueEventListener() {
@@ -56,7 +56,7 @@ public class TemperatureActivity extends AppCompatActivity {
                 TextView textView_temperature = findViewById(R.id.textView_temperature);
                 textView_temperature.setText("\n\n" + dataFromDB + "도");
 
-                int data = Integer.parseInt(dataFromDB);
+                float data = Float.parseFloat(dataFromDB);
                 if (data > 5) {
                     notifySomething("차 내 온도가 너무 높습니다");
                 }

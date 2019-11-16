@@ -27,6 +27,8 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public class SignupActivity extends AppCompatActivity {
+    final private String TAG = "SingUp_Activity";
+
 
     // 비밀번호 정규식
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$");
@@ -133,6 +135,7 @@ public class SignupActivity extends AppCompatActivity {
 
                             // 이 부분 나중에 안되면 보셈(등록 성공하고나서 매인화면으로 안가면)
 //                            Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+//                            intent.putExtra("userEmail", email);
 //                            startActivity(intent);
 
                         } else {
@@ -145,7 +148,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private void writeNewUser(String uEmail, String name, String phoneNum, String carNum, String carType) {
         UserData data = new UserData(uEmail, name, phoneNum, carNum, carType);
-        String replacedEmail = new String(uEmail.replace('@','_'));
+        String replacedEmail = (uEmail.replace('@','_'));
         replacedEmail = replacedEmail.replace('.', '_');
         Log.d("uemail", data.getUserEmail());
 

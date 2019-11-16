@@ -11,7 +11,9 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoadingActivity extends AppCompatActivity {
-    private final int SPLASH_DISPLAY_TIME = 3000;
+    final private String TAG = "Loading_Activity";
+
+    private final int SPLASH_DISPLAY_TIME = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

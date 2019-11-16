@@ -11,6 +11,7 @@ public class UserData {
     private String phoneNum;
     private String carNum;
     private String carType;
+
     private boolean motion;
     private float temperature;
 
@@ -54,7 +55,6 @@ public class UserData {
 
     public void setTemperature(float temperature) { this.temperature = temperature;    }
 
-
     public String getUserEmail() {
         return userEmail;
     }
@@ -82,5 +82,4 @@ public class UserData {
     public float getTemperature() {
         return temperature;
     }
-
 }

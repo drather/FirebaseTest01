@@ -26,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class ProfileActivity extends AppCompatActivity {
+    final private String TAG = "Profile_Activity";
+
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
@@ -36,40 +38,43 @@ public class ProfileActivity extends AppCompatActivity {
     String ID = "";
 
     @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_profile);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
 
-            intent = getIntent();
-            ID = intent.getStringExtra("userEmail");
+        intent = getIntent();
+        ID = intent.getStringExtra("userEmail");
+        Log.d(TAG, "넘어온 Id: " + ID);
 
-            databaseReference.child("User List").child(ID).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    //이 밑에 5줄은 getValue()시험
-                    UserData userDataFromDB = dataSnapshot.getValue(UserData.class);
+        databaseReference.child("User List").child(ID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d(TAG, ID + "로 dataChange 들어옴");
+                //이 밑에 5줄은 getValue()시험
+                UserData userDataFromDB = dataSnapshot.getValue(UserData.class);
 
-                    textView_email_profile = findViewById(R.id.textView_email_profile);
-                    textView_name_profile = findViewById(R.id.textView_name_profile);
-                    editText_phoneNum_profile = findViewById(R.id.editText_phoneNum_profile);
-                    editText_carNum_profile = findViewById(R.id.editText_carNum_profile);
-                    editText_carType_profile = findViewById(R.id.editText_carType_profile);
+                textView_email_profile = findViewById(R.id.textView_email_profile);
+                textView_name_profile = findViewById(R.id.textView_name_profile);
+                editText_phoneNum_profile = findViewById(R.id.editText_phoneNum_profile);
+                editText_carNum_profile = findViewById(R.id.editText_carNum_profile);
+                editText_carType_profile = findViewById(R.id.editText_carType_profile);
 
-                    textView_email_profile.setText(userDataFromDB.getUserEmail());
-                    textView_name_profile.setText(userDataFromDB.getName());
-                    editText_phoneNum_profile.setText(userDataFromDB.getPhoneNum());
-                    editText_carNum_profile.setText(userDataFromDB.getCarNum());
-                    editText_carType_profile.setText(userDataFromDB.getCarType());
-                }
+                textView_email_profile.setText(userDataFromDB.getUserEmail());
+                textView_name_profile.setText(userDataFromDB.getName());
+                editText_phoneNum_profile.setText(userDataFromDB.getPhoneNum());
+                editText_carNum_profile.setText(userDataFromDB.getCarNum());
+                editText_carType_profile.setText(userDataFromDB.getCarType());
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });
+            }
+        });
 
-        btn_modifyProfile = findViewById(R.id.btn_modifyProfile);
-        btn_confirm = findViewById(R.id.btn_confirm);
+        btn_modifyProfile = (Button)findViewById(R.id.btn_modifyProfile);
+        btn_confirm = (Button)findViewById(R.id.btn_confirm);
+
         btn_modifyProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +95,7 @@ public class ProfileActivity extends AppCompatActivity {
                 databaseReference.child("User List").child(ID).child("phoneNum").setValue(modified_phoneNum);
                 databaseReference.child("User List").child(ID).child("carNum").setValue(modified_carNum);
                 databaseReference.child("User List").child(ID).child("carType").setValue(modified_carType);
-                Log.d("modification", "modified_phoneNum" + modified_phoneNum);
+                Log.d(TAG, "modified_phoneNum" + modified_phoneNum);
 
                 editText_phoneNum_profile.setEnabled(false);
                 editText_carNum_profile.setEnabled(false);
@@ -98,7 +103,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                 btn_confirm.setEnabled(false);
             }
-        }) ;
-
+        });
     }
 }

@@ -55,7 +55,6 @@
             android:textSize="20dp"
             android:layout_marginTop="20dp"
             android:enabled="false"
-
             ></EditText>
 
         <EditText
@@ -67,9 +66,6 @@
             android:layout_marginTop="20dp"
             android:textSize="20dp"
             android:enabled="false"
-
-
-
             ></EditText>
 
         <EditText
@@ -79,7 +75,6 @@
             android:text="차종"
             android:layout_centerHorizontal="true"
             android:textSize="20dp"
-
             android:enabled="false"
             ></EditText>
 
@@ -112,7 +107,6 @@
             android:layout_marginLeft="20dp"
             android:clickable="false"
             android:enabled="false"
-
             ></Button>
 
         ></LinearLayout>
