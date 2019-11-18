@@ -93,7 +93,6 @@ tools:context=".ProfileActivity">
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
             android:enabled="false"
             android:text="차량 번호"
             android:textSize="20dp"
