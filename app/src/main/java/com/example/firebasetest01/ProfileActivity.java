@@ -10,12 +10,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -50,7 +54,6 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d(TAG, ID + "로 dataChange 들어옴");
-                //이 밑에 5줄은 getValue()시험
                 UserData userDataFromDB = dataSnapshot.getValue(UserData.class);
 
                 textView_email_profile = findViewById(R.id.textView_email_profile);
@@ -65,6 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
                 editText_carNum_profile.setText(userDataFromDB.getCarNum());
                 editText_carType_profile.setText(userDataFromDB.getCarType());
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -94,7 +98,16 @@ public class ProfileActivity extends AppCompatActivity {
 
                 databaseReference.child("User List").child(ID).child("phoneNum").setValue(modified_phoneNum);
                 databaseReference.child("User List").child(ID).child("carNum").setValue(modified_carNum);
-                databaseReference.child("User List").child(ID).child("carType").setValue(modified_carType);
+                databaseReference.child("User List").child(ID).child("carType").setValue(modified_carType)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(ProfileActivity.this, "회원 정보가 성공적으로 변경되었습니다",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
                 Log.d(TAG, "modified_phoneNum" + modified_phoneNum);
 
                 editText_phoneNum_profile.setEnabled(false);
@@ -102,7 +115,27 @@ public class ProfileActivity extends AppCompatActivity {
                 editText_carType_profile.setEnabled(false);
 
                 btn_confirm.setEnabled(false);
+        }
+        });
+
+        Button btn_changePassword = findViewById(R.id.btn_changePassword);
+        btn_changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String newPassword = "";
+
+                user.updatePassword(newPassword)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "User password updated.");
+                                }
+                            }
+                        });
             }
         });
+
     }
 }

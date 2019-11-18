@@ -54,11 +54,18 @@ public class TemperatureActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String dataFromDB = dataSnapshot.getValue().toString();
                 TextView textView_temperature = findViewById(R.id.textView_temperature);
-                textView_temperature.setText("\n\n" + dataFromDB + "도");
+//                textView_temperature.setText("\n\n" + dataFromDB + "도");
 
-                float data = Float.parseFloat(dataFromDB);
-                if (data > 5) {
-                    notifySomething("차 내 온도가 너무 높습니다");
+                if (dataFromDB.equals("Not Connected")) {
+                    textView_temperature.setText("\n\n" + "아직 연결되지 않았습니다");
+                }
+
+                else {
+                    textView_temperature.setText("\n\n" + dataFromDB + "도");
+                    float data = Float.parseFloat(dataFromDB);
+                    if (data > 5) {
+                        notifySomething("차 내 온도가 너무 높습니다");
+                    }
                 }
             }
 
@@ -81,7 +88,7 @@ public class TemperatureActivity extends AppCompatActivity {
                     notifySomething("차 내에 움직임이 감지되고 있습니다");
             }
                 else {
-                    textView_motion.setText("이도저도 아님, 오류인듯");
+                    textView_motion.setText("아직 연결되지 않았습니다");
                 }
             }
 

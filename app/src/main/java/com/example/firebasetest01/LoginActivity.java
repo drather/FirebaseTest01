@@ -115,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             // 값 넘기기
                             intent.putExtra("userEmail", editTextEmail.getText().toString());
+
                             startActivity(intent);
 
                         } else {

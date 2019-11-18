@@ -12,8 +12,8 @@ public class UserData {
     private String carNum;
     private String carType;
 
-    private boolean motion;
-    private float temperature;
+    private String motion;
+    private String temperature;
 
     public UserData() {
 
@@ -25,8 +25,8 @@ public class UserData {
         this.phoneNum = phoneNum;
         this.carNum = carNum;
         this.carType = carType;
-        this.motion = false;
-        this.temperature = -1;
+        this.motion = "Not Connected";
+        this.temperature = "Not Connected";
     }
 
     public void setUserEmail(String userEmail) {
@@ -49,11 +49,11 @@ public class UserData {
         this.carType = carType;
     }
 
-    public void setMotion(boolean motion) {
+    public void setMotion(String motion) {
         motion = motion;
     }
 
-    public void setTemperature(float temperature) { this.temperature = temperature;    }
+    public void setTemperature(String temperature) { this.temperature = temperature;    }
 
     public String getUserEmail() {
         return userEmail;
@@ -75,11 +75,11 @@ public class UserData {
         return carType;
     }
 
-    public boolean isMotion() {
+    public String isMotion() {
         return motion;
     }
 
-    public float getTemperature() {
+    public String getTemperature() {
         return temperature;
     }
 }
