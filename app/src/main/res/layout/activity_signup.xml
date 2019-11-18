@@ -15,58 +15,100 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="127dp"
         android:src="@drawable/logo2"></ImageView>
 
-    <EditText
-        android:id="@+id/editText_candID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="아이디"
-        >
-    </EditText>
+    <RelativeLayout
+        android:layout_width="330dp"
+        android:layout_height="410dp"
+        android:layout_gravity="center">
 
-    <EditText
-        android:id="@+id/editText_candPW"
+        <ImageView
+        android:id="@+id/profile_user"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="비밀번호"
-        ></EditText>
+        android:layout_height="match_parent"
+        android:layout_alignStart="@+id/relativeLayout_img"
+        android:layout_alignLeft="@+id/relativeLayout_img"
+        android:layout_marginStart="-27dp"
+        android:layout_marginLeft="-27dp"
+        android:src="@drawable/activity_profile_user"></ImageView>
 
-    <EditText
-        android:id="@+id/editText_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="이름"
-        ></EditText>
+        <LinearLayout
+            android:id="@+id/relativeLayout_img"
+            android:layout_width="296dp"
+            android:layout_height="300dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
 
-    <EditText
-        android:id="@+id/editText_phoneNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="핸드폰 번호"
-        ></EditText>
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginTop="88dp"
+            android:layout_marginEnd="42dp"
+            android:layout_marginRight="43dp"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editText_carNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="차량 번호"
-        ></EditText>
+            <EditText
+                android:id="@+id/editText_candID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="아이디"
+                >
+            </EditText>
 
-    <EditText
-        android:id="@+id/editText_carType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="차종"
-        ></EditText>
+            <EditText
+                android:id="@+id/editText_candPW"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="비밀번호"
+                ></EditText>
+
+            <EditText
+                android:id="@+id/editText_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="이름"
+                ></EditText>
+
+            <EditText
+                android:id="@+id/editText_phoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="핸드폰 번호"
+                ></EditText>
+
+            <EditText
+                android:id="@+id/editText_carNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="차량 번호"
+                ></EditText>
+
+            <EditText
+                android:id="@+id/editText_carType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="차종"
+                ></EditText>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/btn_submitSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="확인"
+        android:background="@drawable/imgbtn_states"
+        android:text="회원가입   "
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:textSize="20dp"
         android:layout_gravity="center"
         ></Button>
+
+
 
 </LinearLayout>
