@@ -52,23 +52,23 @@ tools:context=".ProfileActivity">
         android:layout_alignParentRight="true"
         android:layout_gravity="center"
 
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="30dp"
         android:layout_marginLeft="48dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="43dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="42dp"
         android:layout_marginRight="43dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView_email_profile"
-            android:layout_width="300dp"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:text="Email"
             android:textSize="20dp"></TextView>
 
         <TextView
             android:id="@+id/textView_name_profile"
-            android:layout_width="300dp"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="이름"
@@ -78,7 +78,7 @@ tools:context=".ProfileActivity">
 
         <EditText
             android:id="@+id/editText_phoneNum_profile"
-            android:layout_width="300dp"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
@@ -90,7 +90,7 @@ tools:context=".ProfileActivity">
 
         <EditText
             android:id="@+id/editText_carNum_profile"
-            android:layout_width="300dp"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:enabled="false"
@@ -102,7 +102,7 @@ tools:context=".ProfileActivity">
 
         <EditText
             android:id="@+id/editText_carType_profile"
-            android:layout_width="300dp"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:enabled="false"
