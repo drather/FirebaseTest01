@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:src="@drawable/inside"
+            android:src="@drawable/activity_camera_inside"
             ></ImageView>
         <ImageView
             android:layout_width="wrap_content"
