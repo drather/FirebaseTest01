@@ -15,6 +15,7 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
         ImageView ImageView_btn1_temperature = (ImageView) findViewById(R.id.ImageView_btn1_temperature);
         ImageView ImageView_btn2_camera = (ImageView) findViewById(R.id.ImageView_btn2_camera);
         ImageView ImageView_btn3_profile = (ImageView) findViewById(R.id.ImageView_btn3_profile);
-        Button btn4_logOut = (Button) findViewById(R.id.btn4_logOut);
-        Button btn5_signOut = (Button) findViewById((R.id.btn5_signOut));
+        ImageView btn4_logOut = (ImageView) findViewById(R.id.btn4_logOut);
+
 
         //
 //        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -146,48 +147,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 alBuilder.setTitle("로그아웃");
-                alBuilder.show(); // AlertDialog.Bulider로 만든 AlertDialog를 보여준다.
-            }
-        });
-
-        //탈퇴 메소드
-        //DB에 정보 다 지우고, 인증도 앞으로 못하게 된다. 완성
-        btn5_signOut.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                AlertDialog.Builder alBuilder = new AlertDialog.Builder(MainActivity.this);
-                alBuilder.setMessage("탈퇴하시겠습니까?");
-
-                // "예" 버튼을 누르면 실행되는 리스너
-                alBuilder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        databaseReference.child("User List").child(ID).removeValue();
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, "User account deleted.");
-                                    Toast.makeText(MainActivity.this, "성공적으로 탈퇴하였습니다",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
-                        finish(); // 현재 액티비티를 종료한다. (MainActivity에서 작동하기 때문에 애플리케이션을 종료한다.)
-                        intent = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                    }
-                });
-
-                // "아니오" 버튼을 누르면 실행되는 리스너
-                alBuilder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        return; // 아무런 작업도 하지 않고 돌아간다
-                    }
-                });
-                alBuilder.setTitle("탈퇴");
                 alBuilder.show(); // AlertDialog.Bulider로 만든 AlertDialog를 보여준다.
             }
         });
