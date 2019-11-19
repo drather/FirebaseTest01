@@ -163,10 +163,11 @@ tools:context=".ProfileActivity">
         android:id="@+id/btn5_signOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/activity_profile_user_signup"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/activity_profile_user_signout"
+        android:layout_marginTop="0dp"
         android:fontFamily="sans-serif-black"
-        android:textSize="15dp"></Button>
+        android:textSize="15dp"
+        ></Button>
 
-    ></LinearLayout>
+></LinearLayout>
