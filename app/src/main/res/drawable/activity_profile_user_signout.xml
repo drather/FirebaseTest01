@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--  selector가 눌렸을 때 @drawable/activity_main_temperature_press 를 보여준다-->
+    <item android:state_pressed="true"
+        android:drawable="@drawable/activity_profile_user_signup_press"></item>
+
+    <!--  selector가 눌리지 않았을 때 @drawable/activity_main_temperature 를 보여준다-->
+    <item android:state_pressed="false"
+        android:drawable="@drawable/activity_profile_user_signup"></item>
+
+</selector>

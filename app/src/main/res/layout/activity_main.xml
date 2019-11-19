@@ -91,26 +91,37 @@
             android:layout_weight="0.25"
             android:src="@drawable/selector_modify_image"></ImageView>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:src="@drawable/activity_main_box"></ImageView>
+
+    <ImageView
+        android:id="@+id/btn4_logOut"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="70dp"
+        android:layout_weight="0.25"
+        android:src="@drawable/selector_logout_image"></ImageView>
+
+
+
 <!--    <ImageView-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="70dp"-->
 <!--        android:src="@drawable/activity_main_box"></ImageView>-->
 
-    <Button
-        android:id="@+id/btn4_logOut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="로그아웃"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center"
-        ></Button>
+<!--    <Button-->
+<!--        android:id=""-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="로그아웃"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        ></Button>-->
 
-    <Button
-        android:id="@+id/btn5_signOut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="회원 탈퇴"
-        android:layout_gravity="center"
-        ></Button>
+
 
 </LinearLayout>

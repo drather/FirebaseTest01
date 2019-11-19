@@ -23,12 +23,12 @@ tools:context=".ProfileActivity">
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="127dp"
+        android:layout_height="67dp"
         android:src="@drawable/logo2"></ImageView>
 
 <RelativeLayout
     android:layout_width="330dp"
-    android:layout_height="400dp"
+    android:layout_height="470dp"
     android:layout_gravity="center">
 
 
@@ -40,21 +40,20 @@ tools:context=".ProfileActivity">
         android:layout_alignLeft="@+id/relativeLayout_img"
         android:layout_marginStart="-27dp"
         android:layout_marginLeft="-27dp"
-        android:src="@drawable/activity_profile_user"></ImageView>
+        android:src="@drawable/activity_profile_user1"></ImageView>
 
     <LinearLayout
         android:id="@+id/relativeLayout_img"
         android:layout_width="296dp"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="center"
-
         android:layout_marginStart="30dp"
         android:layout_marginLeft="48dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="120dp"
         android:layout_marginEnd="42dp"
         android:layout_marginRight="43dp"
         android:orientation="vertical">
@@ -114,47 +113,60 @@ tools:context=".ProfileActivity">
         >
     </LinearLayout>
 
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout_img"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp">
+
+        <Button
+            android:id="@+id/btn_modifyProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/imgbtn_states"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:text="회원 정보 수정  "
+            android:textSize="15dp"
+
+            ></Button>
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/imgbtn_states"
+            android:clickable="false"
+            android:enabled="false"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:text="변경사항 저장  "
+            android:textSize="15dp"></Button>
+
+        >
+    </LinearLayout>
+
 </RelativeLayout>
 
-
-<LinearLayout
-    android:layout_width="330dp"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:weightSum="1"
-    android:layout_gravity="center">
-
     <Button
-        android:id="@+id/btn_modifyProfile"
+        android:id="@+id/btn5_signOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/imgbtn_states"
-        android:text="회원 정보 수정  "
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/activity_profile_user_signout"
         android:fontFamily="sans-serif-black"
-        android:gravity="center"
-        android:textSize="15dp"
-
-        ></Button>
-
-    <Button
-        android:id="@+id/btn_confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="20dp"
-        android:clickable="false"
-        android:enabled="false"
-        android:background="@drawable/imgbtn_states"
-        android:text="변경사항 저장  "
-        android:fontFamily="sans-serif-black"
-        android:gravity="center"
-        android:textSize="15dp"
-        ></Button>
+        android:textSize="15dp"></Button>
 
     ></LinearLayout>
-
-></LinearLayout>
