@@ -1,5 +1,6 @@
 package com.example.firebasetest01;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -8,6 +9,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,7 +25,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -64,15 +68,6 @@ public class MainActivity extends AppCompatActivity {
         Button btn4_logOut = (Button) findViewById(R.id.btn4_logOut);
         Button btn5_signOut = (Button) findViewById((R.id.btn5_signOut));
 
-        //
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        if (user != null) {
-//            // User is signed in
-//            Log.d(TAG, user.getUid() + "사용자 로그인됨");
-//        } else {
-//            // No user is signed in
-//            Log.d(TAG, "사용자 로그인 안됨");
-//        }
 
         intent = getIntent();
         ID = intent.getStringExtra("userEmail");
@@ -194,11 +189,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
-
-
-
     @Override
     public void onBackPressed() {
         // AlertDialog 빌더를 이용해 종료시 발생시킬 창을 띄운다
@@ -239,5 +229,6 @@ public class MainActivity extends AppCompatActivity {
         alBuilder.setTitle("프로그램 종료");
         alBuilder.show(); // AlertDialog.Bulider로 만든 AlertDialog를 보여준다.
     }
+
 }
 

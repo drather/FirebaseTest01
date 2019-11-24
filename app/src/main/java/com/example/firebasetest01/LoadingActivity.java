@@ -20,6 +20,10 @@ public class LoadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
+
+
+
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable(){
             @Override

@@ -1,5 +1,6 @@
 package com.example.firebasetest01;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -8,17 +9,23 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -36,7 +43,9 @@ public class TemperatureActivity extends AppCompatActivity {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = database.getReference();
 
+    private static final int PERMISSION_REQUEST_CODE = 1;
     public static final String NOTIFICATION_CHANNEL_ID = "10001";
+
     private int count = 0;
 
     @Override
@@ -48,7 +57,16 @@ public class TemperatureActivity extends AppCompatActivity {
         String ID = intent.getStringExtra("userEmail");
         Log.d(TAG, "userEmail: " + ID);
 
+        // 퍼미션 받는 부분
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkPermission()) {
+                Log.e("permission", "Permission already granted.");
+            } else {
+                requestPermission();
+            }
+        }
 
+        // 온도 값 읽어오는 부분
         databaseReference.child("User List").child(ID).child("temperature").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -65,6 +83,21 @@ public class TemperatureActivity extends AppCompatActivity {
                     float data = Float.parseFloat(dataFromDB);
                     if (data > 5) {
                         notifySomething("차 내 온도가 너무 높습니다");
+
+                        // 문자 여기부터
+                        String sms = "온도 너무높아";
+                        String phoneNum = "01024075776";
+
+                        if(!TextUtils.isEmpty(sms) && !TextUtils.isEmpty(phoneNum)) {
+                            if(checkPermission()) {
+                                //Get the default SmsManager//
+                                SmsManager smsManager = SmsManager.getDefault();
+                                //Send the SMS//
+                                smsManager.sendTextMessage(phoneNum, null, sms, null, null);
+                            }else {
+                                Toast.makeText(TemperatureActivity.this, "Permission denied", Toast.LENGTH_SHORT).show();
+                            }
+                        } //문자 여기까지
                     }
                 }
             }
@@ -75,6 +108,8 @@ public class TemperatureActivity extends AppCompatActivity {
             }
         });
 
+
+        // 모션 값 읽어오는 부분
         databaseReference.child("User List").child(ID).child("motion").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -108,7 +143,7 @@ public class TemperatureActivity extends AppCompatActivity {
     public void notifySomething(String msg) {
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent notificationIntent = new Intent(this, NotificationTestActivity.class);
+        Intent notificationIntent = new Intent(this, TemperatureActivity.class);
         notificationIntent.putExtra("notificationId", count); //전달할 값
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK) ;
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
@@ -143,5 +178,40 @@ public class TemperatureActivity extends AppCompatActivity {
 
         assert notificationManager != null;
         notificationManager.notify(1234, builder.build()); // 고유숫자로 노티피케이션 동작시킴
+    }
+
+
+
+    /////////////////////////////////////////////////////////
+    // 이 밑으로는 문자메시지 전송을 위한 메소드 들어갈 것 //
+    /////////////////////////////////////////////////////////
+
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(TemperatureActivity.this, Manifest.permission.SEND_SMS);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, PERMISSION_REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(TemperatureActivity.this,
+                            "Permission accepted", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(TemperatureActivity.this,
+                            "Permission denied", Toast.LENGTH_LONG).show();
+                }
+                break;
+        }
     }
 }
