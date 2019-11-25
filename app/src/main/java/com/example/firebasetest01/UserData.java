@@ -29,7 +29,6 @@ public class UserData {
         this.motion = "Not Connected";
         this.temperature = "Not Connected";
         this.gps = "";
-
     }
 
     public void setUserEmail(String userEmail) {

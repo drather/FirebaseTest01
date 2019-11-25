@@ -161,7 +161,8 @@ public class MainActivity extends AppCompatActivity {
                 if (motionFromDB.equals("false")) {
                     // 인체 감지 X
                 } else if (motionFromDB.equals("true")) {
-                    // 인체 감지 됨
+                    // 인체가 감지된 경우 첫번째 경고
+                    giveFirstWarning(motionFromDB);
                 } else {
                     // 아직 연결 안됨
                 }
@@ -178,11 +179,17 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 temperatureFromDB = dataSnapshot.getValue().toString();
                 if (temperatureFromDB.equals("Not Connected")) {
-
+                    // 아직 연결 안됨
                 } else {
                     float data = Float.parseFloat(temperatureFromDB);
-                    Log.d(TAG, "temperatureFromDB: " + temperatureFromDB);
-
+                    // 여전히 움직임 감지되고, 온도가 30 ~ 40인 경우 2번째 경고
+                    if (motionFromDB.equals("true") && checkTemperature(temperatureFromDB) == 2  && firstWarning) {
+                        giveSecondWarning(motionFromDB, temperatureFromDB);
+                    }
+                    // 여전히 움직임 감지되고, 온도가 40도 이상인 경우 3번째 경고
+                    else if (motionFromDB.equals("true") && checkTemperature(temperatureFromDB)== 3 && secondWarning) {
+                        giveThirdWarning(motionFromDB, temperatureFromDB);
+                    }
                 }
             }
 
@@ -254,8 +261,11 @@ public class MainActivity extends AppCompatActivity {
         if (temp < 30.0) {
             return 1;
         }
-        else
+        else if (temp < 40.0)
             return 2;
+
+        else
+            return 3;
     }
 
 
@@ -264,12 +274,12 @@ public class MainActivity extends AppCompatActivity {
         firstWarning = true;
     }
 
-    public void giveSecondWarning(String motion, String temperature, boolean firstWarning) {
+    public void giveSecondWarning(String motion, String temperature) {
             notifySomething("차량 내부에 움직임이 감지된 상태에서, 차량 내부 온도가 30도까지 상승했습니다.");
             secondWarning = true;
     }
 
-    public void giveThirdWarning(String motion, String temperature, boolean secondWarning) {
+    public void giveThirdWarning(String motion, String temperature) {
         thirdWarning = true;
         databaseReference.child("User List").child(ID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -286,9 +296,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void detectAndAlarm() {
-
-    }
 
     public void initWarning() {
         firstWarning = false;

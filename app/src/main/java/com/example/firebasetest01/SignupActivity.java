@@ -29,7 +29,6 @@ import java.util.regex.Pattern;
 public class SignupActivity extends AppCompatActivity {
     final private String TAG = "SingUp_Activity";
 
-
     // 비밀번호 정규식
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$");
 
@@ -67,17 +66,17 @@ public class SignupActivity extends AppCompatActivity {
                 email = editText_candID.getText().toString();
                 password = editText_candPW.getText().toString();
 
-                    if(isValidEmail() && isValidPasswd()) {
-                        createUser(email, password);
+                if (isValidEmail() && isValidPasswd()) {
+                    createUser(email, password);
 
-                        String userEmail = email;
-                        String name = editText_name.getText().toString();
-                        String phoneNum = editText_phoneNumber.getText().toString();
-                        String carNum = editText_carNumber.getText().toString();
-                        String type = editText_carType.getText().toString();
+                    String userEmail = email;
+                    String name = editText_name.getText().toString();
+                    String phoneNum = editText_phoneNumber.getText().toString();
+                    String carNum = editText_carNumber.getText().toString();
+                    String type = editText_carType.getText().toString();
 
-                        //이거 createUser() 안으로 옮기는게 좋을듯
-                        writeNewUser(userEmail, name, phoneNum, carNum, type);
+                    //이거 createUser() 안으로 옮기는게 좋을듯
+                    writeNewUser(userEmail, name, phoneNum, carNum, type);
                 }
 
                 Intent intent = new Intent(SignupActivity.this, MainActivity.class);
@@ -91,24 +90,24 @@ public class SignupActivity extends AppCompatActivity {
         email = editText_candID.getText().toString();
         password = editText_candPW.getText().toString();
 
-        if(isValidEmail() && isValidPasswd()) {
+        if (isValidEmail() && isValidPasswd()) {
             createUser(email, password);
         }
     }
 
 
     // 이메일 유효성 검사
-            private boolean isValidEmail() {
-                if (email.isEmpty()) {
-                    // 이메일 공백
-                    return false;
-                } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+    private boolean isValidEmail() {
+        if (email.isEmpty()) {
+            // 이메일 공백
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             // 이메일 형식 불일치
-                    return false;
-                 } else {
-                    return true;
-                 }
-            }
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     // 비밀번호 유효성 검사
     private boolean isValidPasswd() {
@@ -148,7 +147,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private void writeNewUser(String uEmail, String name, String phoneNum, String carNum, String carType) {
         UserData data = new UserData(uEmail, name, phoneNum, carNum, carType);
-        String replacedEmail = (uEmail.replace('@','_'));
+        String replacedEmail = (uEmail.replace('@', '_'));
         replacedEmail = replacedEmail.replace('.', '_');
         Log.d("uemail", data.getUserEmail());
 

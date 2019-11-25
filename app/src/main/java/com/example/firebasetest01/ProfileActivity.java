@@ -164,25 +164,5 @@ public class ProfileActivity extends AppCompatActivity {
                 alBuilder.show(); // AlertDialog.Bulider로 만든 AlertDialog를 보여준다.
             }
         });
-
-//        Button btn_changePassword = findViewById(R.id.btn_changePassword);
-//        btn_changePassword.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//                String newPassword = "";
-//
-//                user.updatePassword(newPassword)
-//                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<Void> task) {
-//                                if (task.isSuccessful()) {
-//                                    Log.d(TAG, "User password updated.");
-//                                }
-//                            }
-//                        });
-//            }
-//        });
-
     }
 }
