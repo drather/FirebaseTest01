@@ -53,18 +53,18 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference databaseReference = database.getReference();
     private FirebaseAuth firebaseAuth;
 
-    public static final int PERMISSION_REQUEST_CODE = 1;
-    public static final String NOTIFICATION_CHANNEL_ID = "10001";
+    private static final int PERMISSION_REQUEST_CODE = 1;
+    private static final String NOTIFICATION_CHANNEL_ID = "10001";
     private int count = 0;
+
+    private boolean firstWarning = false;
+    private boolean secondWarning = false;
+    private boolean thirdWarning = false;
 
     String temperatureFromDB = "";
     String motionFromDB = "";
-
     String ID = "";
     Intent intent;
-
-    //탈퇴 시 인증 제거 위해 수정할 것
-    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,27 +151,6 @@ public class MainActivity extends AppCompatActivity {
                 alBuilder.show(); // AlertDialog.Bulider로 만든 AlertDialog를 보여준다.
             }
         });
-
-        // 온도 값 받아오는 부분
-        databaseReference.child("User List").child(ID).child("temperature").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                temperatureFromDB = dataSnapshot.getValue().toString();
-                if (temperatureFromDB.equals("Not Connected")) {
-
-                } else {
-                    float data = Float.parseFloat(temperatureFromDB);
-                    Log.d(TAG, "temperatureFromDB: " + temperatureFromDB);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
         // 모션 값 받아오는 부분
         databaseReference.child("User List").child(ID).child("motion").addValueEventListener(new ValueEventListener() {
             @Override
@@ -193,50 +172,26 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        // 온도 값 받아오는 부분
+        databaseReference.child("User List").child(ID).child("temperature").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                temperatureFromDB = dataSnapshot.getValue().toString();
+                if (temperatureFromDB.equals("Not Connected")) {
 
+                } else {
+                    float data = Float.parseFloat(temperatureFromDB);
+                    Log.d(TAG, "temperatureFromDB: " + temperatureFromDB);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
-
-//    뒤로가기 눌렀을 떄 무슨 행동 할지인데, 없어도 되지 싶다.
-//    @Override
-//    public void onBackPressed() {
-//        // AlertDialog 빌더를 이용해 종료시 발생시킬 창을 띄운다
-//        AlertDialog.Builder alBuilder = new AlertDialog.Builder(this);
-//        alBuilder.setMessage("로그아웃 하시겠습니까?");
-//
-//        // "예" 버튼을 누르면 실행되는 리스너
-//        alBuilder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//                firebaseAuth.signOut();
-//                //
-//                if (user != null) {
-//                    // User is signed in
-//                    Log.d(TAG, user.getUid() + "사용자 로그아웃 안됨");
-//                } else {
-//                    // No user is signed in
-//                    Log.d(TAG, "사용자 로그아웃 됨");
-//                }
-//                //
-//                Toast.makeText(MainActivity.this, "성공적으로 로그아웃하였습니다",
-//                        Toast.LENGTH_SHORT).show();
-//                finish(); // 현재 액티비티를 종료한다. (MainActivity에서 작동하기 때문에 애플리케이션을 종료한다.)
-//
-//                intent = new Intent(MainActivity.this, LoginActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//        // "아니오" 버튼을 누르면 실행되는 리스너
-//        alBuilder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                return; // 아무런 작업도 하지 않고 돌아간다
-//            }
-//        });
-//        alBuilder.setTitle("프로그램 종료");
-//        alBuilder.show(); // AlertDialog.Bulider로 만든 AlertDialog를 보여준다.
-//    }
-
 
     public void notifySomething(String msg) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -286,35 +241,126 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public boolean checkMotion() {
-        return true;
+    public boolean checkMotion(String motion) {
+        if (motion.equals("true")) {
+            return true;
+        }
+        else
+            return false;
     }
 
-    public boolean checkTemperature() {
-
-        return true;
+    public int checkTemperature(String temperature) {
+        float temp = Float.parseFloat(temperature);
+        if (temp < 30.0) {
+            return 1;
+        }
+        else
+            return 2;
     }
 
-    public void sendSMS() {
+
+    public void giveFirstWarning(String motion) {
+        notifySomething("차량 내부에 움직임이 감지되었습니다.");
+        firstWarning = true;
+    }
+
+    public void giveSecondWarning(String motion, String temperature, boolean firstWarning) {
+            notifySomething("차량 내부에 움직임이 감지된 상태에서, 차량 내부 온도가 30도까지 상승했습니다.");
+            secondWarning = true;
+    }
+
+    public void giveThirdWarning(String motion, String temperature, boolean secondWarning) {
+        thirdWarning = true;
+        databaseReference.child("User List").child(ID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            // UserData 정보 받아오기
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserData ud = dataSnapshot.getValue(UserData.class);
+                sendSMS(ud);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void detectAndAlarm() {
+
+    }
+
+    public void initWarning() {
+        firstWarning = false;
+        secondWarning = false;
+        thirdWarning = false;
+    }
+
+
+
+    public void sendSMS(UserData userData) {
         // 어반세이프] 차량 내부 온도가 위험수준에 도달하여 ' + gps + carType + 차량번호 + carNum + 신고 문자가 119에 전송되었습니다.
-        String carType = "";
-        String gps ="";
-        String carNum = "";
-        String phoneNum = "01024075776";
+        String carType = userData.getCarType();
+        String gps = userData.getGps();
+        String carNum = userData.getCarNum();
+
+        String destPhoneNum = "01024075776";
 
         String msg = "어반세이프] 차량 내부 온도가 위험수준에 도달하여 " +
                 gps + ", " + carType + ", " + carNum + "신고 문자가 119에 전송되었습니다";
 
-        if(!TextUtils.isEmpty(msg) && !TextUtils.isEmpty(phoneNum)) {
+        if(!TextUtils.isEmpty(msg) && !TextUtils.isEmpty(destPhoneNum)) {
             if(checkPermission()) {
                 //Get the default SmsManager//
                 SmsManager smsManager = SmsManager.getDefault();
                 //Send the SMS//
-                smsManager.sendTextMessage(phoneNum, null, msg, null, null);
+                smsManager.sendTextMessage(destPhoneNum, null, msg, null, null);
+                Toast.makeText(MainActivity.this, "신고 메시지를 전송했습니다.", Toast.LENGTH_SHORT).show();
             }else {
                 Toast.makeText(MainActivity.this, "Permission denied at main", Toast.LENGTH_SHORT).show();
             }
         } //문자 여기까지
+    }
+
+    //뒤로가기 눌렀을 떄 무슨 행동 할지인데, 없어도 되지 싶다.
+    @Override
+    public void onBackPressed() {
+        // AlertDialog 빌더를 이용해 종료시 발생시킬 창을 띄운다
+        AlertDialog.Builder alBuilder = new AlertDialog.Builder(this);
+        alBuilder.setMessage("로그아웃 하시겠습니까?");
+
+        // "예" 버튼을 누르면 실행되는 리스너
+        alBuilder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                firebaseAuth.signOut();
+                //
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, user.getUid() + "사용자 로그아웃 안됨");
+                } else {
+                    // No user is signed in
+                    Log.d(TAG, "사용자 로그아웃 됨");
+                }
+                //
+                Toast.makeText(MainActivity.this, "성공적으로 로그아웃하였습니다",
+                        Toast.LENGTH_SHORT).show();
+                finish(); // 현재 액티비티를 종료한다. (MainActivity에서 작동하기 때문에 애플리케이션을 종료한다.)
+
+                intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        // "아니오" 버튼을 누르면 실행되는 리스너
+        alBuilder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return; // 아무런 작업도 하지 않고 돌아간다
+            }
+        });
+        alBuilder.setTitle("프로그램 종료");
+        alBuilder.show(); // AlertDialog.Bulider로 만든 AlertDialog를 보여준다.
     }
 }
 

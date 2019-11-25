@@ -14,6 +14,7 @@ public class UserData {
 
     private String motion;
     private String temperature;
+    private String gps;
 
     public UserData() {
 
@@ -27,6 +28,8 @@ public class UserData {
         this.carType = carType;
         this.motion = "Not Connected";
         this.temperature = "Not Connected";
+        this.gps = "";
+
     }
 
     public void setUserEmail(String userEmail) {
@@ -81,5 +84,9 @@ public class UserData {
 
     public String getTemperature() {
         return temperature;
+    }
+
+    public String getGps() {
+        return gps;
     }
 }
