@@ -85,7 +85,7 @@ public class TemperatureActivity extends AppCompatActivity {
                                 //Send the SMS//
                                 smsManager.sendTextMessage(phoneNum, null, sms, null, null);
                             }else {
-                                Toast.makeText(TemperatureActivity.this, "Permission denied", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(TemperatureActivity.this, "Permission denied at main", Toast.LENGTH_SHORT).show();
                             }
                         } //문자 여기까지
                     }
@@ -195,7 +195,7 @@ public class TemperatureActivity extends AppCompatActivity {
 
                 } else {
                     Toast.makeText(TemperatureActivity.this,
-                            "Permission denied", Toast.LENGTH_LONG).show();
+                            "Permission denied at function", Toast.LENGTH_LONG).show();
                 }
                 break;
         }
