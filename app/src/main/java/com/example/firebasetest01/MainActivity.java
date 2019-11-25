@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (motionFromDB.equals("false")) {
                     // 인체 감지 X
+                    initWarning();
                 } else if (motionFromDB.equals("true")) {
                     // 인체가 감지된 경우 첫번째 경고
                     giveFirstWarning(motionFromDB);
