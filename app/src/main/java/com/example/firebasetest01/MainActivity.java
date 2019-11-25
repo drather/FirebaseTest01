@@ -198,5 +198,7 @@ public class MainActivity extends AppCompatActivity {
         alBuilder.setTitle("프로그램 종료");
         alBuilder.show(); // AlertDialog.Bulider로 만든 AlertDialog를 보여준다.
     }
+
+
 }
 
