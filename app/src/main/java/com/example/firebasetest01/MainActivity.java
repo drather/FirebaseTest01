@@ -378,4 +378,3 @@ public class MainActivity extends AppCompatActivity {
 //        alBuilder.show(); // AlertDialog.Bulider로 만든 AlertDialog를 보여준다.
 //    }
 }
-
