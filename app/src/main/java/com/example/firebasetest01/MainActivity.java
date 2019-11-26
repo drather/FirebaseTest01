@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
     String ID = "";
     Intent intent;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ImageView ImageView_btn1_temperature = (ImageView) findViewById(R.id.ImageView_btn1_temperature);
@@ -182,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
                 if (temperatureFromDB.equals("Not Connected")) {
                     // 아직 연결 안됨
                 } else {
-                    float data = Float.parseFloat(temperatureFromDB);
                     // 여전히 움직임 감지되고, 온도가 30 ~ 40인 경우 2번째 경고
                     if (motionFromDB.equals("true") && checkTemperature(temperatureFromDB) == 2  && firstWarning) {
                         giveSecondWarning(motionFromDB, temperatureFromDB);
@@ -308,21 +307,29 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendSMS(UserData userData) {
         // 어반세이프] 차량 내부 온도가 위험수준에 도달하여 ' + gps + carType + 차량번호 + carNum + 신고 문자가 119에 전송되었습니다.
+        String name = userData.getName();
         String carType = userData.getCarType();
         String gps = userData.getGps();
         String carNum = userData.getCarNum();
 
         String destPhoneNum = "01024075776";
 
-        String msg = "어반세이프] 차량 내부 온도가 위험수준에 도달하여 " +
-                gps + ", " + carType + ", " + carNum + "신고 문자가 119에 전송되었습니다";
+        String msg1 = "어반세이프]" + name + "님의 차량 내부에 사람이 감지된 채로 온도가 " +
+                temperatureFromDB + "도까지 상승하여 신고 문자가 119에 전송되었습니다.";
 
-        if(!TextUtils.isEmpty(msg) && !TextUtils.isEmpty(destPhoneNum)) {
+        String msg2 = "현재 위치: " + gps + "\n" +
+                "차종: " + carType + "\n" +
+                "차량 번호; " + carNum + "";
+
+
+        if(!TextUtils.isEmpty(msg1) && !TextUtils.isEmpty(destPhoneNum)) {
             if(checkPermission()) {
                 //Get the default SmsManager//
                 SmsManager smsManager = SmsManager.getDefault();
                 //Send the SMS//
-                smsManager.sendTextMessage(destPhoneNum, null, msg, null, null);
+                smsManager.sendTextMessage(destPhoneNum, null, msg1, null, null);
+                smsManager.sendTextMessage(destPhoneNum, null, msg2, null, null);
+
                 Toast.makeText(MainActivity.this, "신고 메시지를 전송했습니다.", Toast.LENGTH_SHORT).show();
             }else {
                 Toast.makeText(MainActivity.this, "Permission denied at main", Toast.LENGTH_SHORT).show();
@@ -330,45 +337,45 @@ public class MainActivity extends AppCompatActivity {
         } //문자 여기까지
     }
 
-    //뒤로가기 눌렀을 떄 무슨 행동 할지인데, 없어도 되지 싶다.
-    @Override
-    public void onBackPressed() {
-        // AlertDialog 빌더를 이용해 종료시 발생시킬 창을 띄운다
-        AlertDialog.Builder alBuilder = new AlertDialog.Builder(this);
-        alBuilder.setMessage("로그아웃 하시겠습니까?");
-
-        // "예" 버튼을 누르면 실행되는 리스너
-        alBuilder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                firebaseAuth.signOut();
-                //
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, user.getUid() + "사용자 로그아웃 안됨");
-                } else {
-                    // No user is signed in
-                    Log.d(TAG, "사용자 로그아웃 됨");
-                }
-                //
-                Toast.makeText(MainActivity.this, "성공적으로 로그아웃하였습니다",
-                        Toast.LENGTH_SHORT).show();
-                finish(); // 현재 액티비티를 종료한다. (MainActivity에서 작동하기 때문에 애플리케이션을 종료한다.)
-
-                intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-        // "아니오" 버튼을 누르면 실행되는 리스너
-        alBuilder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                return; // 아무런 작업도 하지 않고 돌아간다
-            }
-        });
-        alBuilder.setTitle("프로그램 종료");
-        alBuilder.show(); // AlertDialog.Bulider로 만든 AlertDialog를 보여준다.
-    }
+//    //뒤로가기 눌렀을 떄 무슨 행동 할지인데, 없어도 되지 싶다.
+//    @Override
+//    public void onBackPressed() {
+//        // AlertDialog 빌더를 이용해 종료시 발생시킬 창을 띄운다
+//        AlertDialog.Builder alBuilder = new AlertDialog.Builder(this);
+//        alBuilder.setMessage("로그아웃 하시겠습니까?");
+//
+//        // "예" 버튼을 누르면 실행되는 리스너
+//        alBuilder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//                firebaseAuth.signOut();
+//                //
+//                if (user != null) {
+//                    // User is signed in
+//                    Log.d(TAG, user.getUid() + "사용자 로그아웃 안됨");
+//                } else {
+//                    // No user is signed in
+//                    Log.d(TAG, "사용자 로그아웃 됨");
+//                }
+//                //
+//                Toast.makeText(MainActivity.this, "성공적으로 로그아웃하였습니다",
+//                        Toast.LENGTH_SHORT).show();
+//                finish(); // 현재 액티비티를 종료한다. (MainActivity에서 작동하기 때문에 애플리케이션을 종료한다.)
+//
+//                intent = new Intent(MainActivity.this, LoginActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//        // "아니오" 버튼을 누르면 실행되는 리스너
+//        alBuilder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                return; // 아무런 작업도 하지 않고 돌아간다
+//            }
+//        });
+//        alBuilder.setTitle("프로그램 종료");
+//        alBuilder.show(); // AlertDialog.Bulider로 만든 AlertDialog를 보여준다.
+//    }
 }
 
