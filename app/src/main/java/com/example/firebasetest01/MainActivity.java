@@ -189,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
                     // 여전히 움직임 감지되고, 온도가 40도 이상인 경우 3번째 경고
                     else if (motionFromDB.equals("true") && checkTemperature(temperatureFromDB)== 3 && secondWarning) {
                         giveThirdWarning(motionFromDB, temperatureFromDB);
+                        notifySomething("차량 내 온도가 위험수준에 도달하여 신고 메시지가 119에 전송되었습니다.");
                     }
                 }
             }
@@ -210,10 +211,10 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.logo)) //BitMap 이미지 요구
-                .setContentTitle(msg) //상태바 드래그시 보이는 타이틀
+                .setContentTitle("어반세이프") //상태바 드래그시 보이는 타이틀
                 .setContentText(msg) // 상태바 드래그시 보이는 서브타이틀
                 // 더 많은 내용이라서 일부만 보여줘야 하는 경우 아래 주석을 제거하면 setContentText에 있는 문자열 대신 아래 문자열을 보여줌
-                //.setStyle(new NotificationCompat.BigTextStyle().bigText("더 많은 내용을 보여줘야 하는 경우..."))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent) // 사용자가 노티피케이션을 탭시 ResultActivity로 이동하도록 설정
                 .setAutoCancel(false);
@@ -309,18 +310,19 @@ public class MainActivity extends AppCompatActivity {
         // 어반세이프] 차량 내부 온도가 위험수준에 도달하여 ' + gps + carType + 차량번호 + carNum + 신고 문자가 119에 전송되었습니다.
         String name = userData.getName();
         String carType = userData.getCarType();
-        String gps = userData.getGps();
+        //String gps = userData.getGps();
+        String gps = "경기도 수원시 영통구 월드컵로 206";
         String carNum = userData.getCarNum();
 
         String destPhoneNum = "01024075776";
-
-        String msg1 = "어반세이프]" + name + "님의 차량 내부에 사람이 감지된 채로 온도가 " +
-                temperatureFromDB + "도까지 상승하여 신고 문자가 119에 전송되었습니다.";
+//
+        String msg1 = "어반세이프]" + name + "님의 차량 내부에 어린이/반려견이 높은 온도에 방치되어 있습니다.";
+//        String msg1 = "어반세이프]" + gps + " 에 " + carType + " 차량번호 " + carNum + " 에 아이/반려견이 높은 온도에 방치되어 있습니다.";
 
         String msg2 = "현재 위치: " + gps + "\n" +
                 "차종: " + carType + "\n" +
-                "차량 번호; " + carNum + "";
-
+                "차량 번호; " + carNum + "\n" +
+                "현재 차량 내부 온도: " + temperatureFromDB;
 
         if(!TextUtils.isEmpty(msg1) && !TextUtils.isEmpty(destPhoneNum)) {
             if(checkPermission()) {
