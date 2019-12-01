@@ -18,22 +18,12 @@ import androidx.core.content.ContextCompat;
 
 public class LoadingActivity extends AppCompatActivity {
     final private String TAG = "Loading_Activity";
-    private static final int PERMISSION_REQUEST_CODE = 1;
     private final int SPLASH_DISPLAY_TIME = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
-
-        // 퍼미션 받는 부분
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkPermission()) {
-                Log.e("permission", "Permission already granted.");
-            } else {
-                requestPermission();
-            }
-        }
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable(){
@@ -44,35 +34,5 @@ public class LoadingActivity extends AppCompatActivity {
                 LoadingActivity.this.finish();
             }
         }, SPLASH_DISPLAY_TIME);
-    }
-
-
-    private boolean checkPermission() {
-        int result = ContextCompat.checkSelfPermission(LoadingActivity.this, Manifest.permission.SEND_SMS);
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private void requestPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, PERMISSION_REQUEST_CODE);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(LoadingActivity.this,
-                            "Permission accepted", Toast.LENGTH_LONG).show();
-
-                } else {
-                    Toast.makeText(LoadingActivity.this,
-                            "Permission denied at function", Toast.LENGTH_LONG).show();
-                }
-                break;
-        }
     }
 }
