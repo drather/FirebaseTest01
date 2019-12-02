@@ -15,6 +15,8 @@ public class UserData {
     private String motion;
     private String temperature;
     private String gps;
+    private String lat;         //위도
+    private String lon;         //경도
 
     public UserData() {
 
@@ -29,6 +31,8 @@ public class UserData {
         this.motion = "Not Connected";
         this.temperature = "Not Connected";
         this.gps = "";
+        this.lat = "";
+        this.lon = "";
     }
 
     public void setUserEmail(String userEmail) {
@@ -52,10 +56,12 @@ public class UserData {
     }
 
     public void setMotion(String motion) {
-        motion = motion;
+        this.motion = motion;
     }
 
-    public void setTemperature(String temperature) { this.temperature = temperature;    }
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
+    }
 
     public String getUserEmail() {
         return userEmail;
@@ -77,7 +83,7 @@ public class UserData {
         return carType;
     }
 
-    public String isMotion() {
+    public String getMotion() {
         return motion;
     }
 
@@ -87,5 +93,22 @@ public class UserData {
 
     public String getGps() {
         return gps;
+    }
+
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
     }
 }

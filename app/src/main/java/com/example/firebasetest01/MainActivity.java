@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
@@ -45,6 +46,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.example.firebasetest01.TemperatureActivity.NOTIFICATION_CHANNEL_ID;
 
@@ -63,14 +65,20 @@ public class MainActivity extends AppCompatActivity {
     private boolean secondWarning = false;
     private boolean thirdWarning = false;
 
+
     String temperatureFromDB = "";
     String motionFromDB = "";
     String ID = "";
     Intent intent;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+    Timer timer = new Timer();
+
+    CountDownTimer cdtimer = null;
+    boolean isTimerEnded;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ImageView ImageView_btn1_temperature = (ImageView) findViewById(R.id.ImageView_btn1_temperature);
@@ -157,17 +165,74 @@ public class MainActivity extends AppCompatActivity {
         databaseReference.child("User List").child(ID).child("motion").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // firebase로부터 계속 motion값을 수신해서 위험 여부를 판단하는 부분이다.
                 motionFromDB = dataSnapshot.getValue().toString();
                 Log.d(TAG, "motionFromDB: " + motionFromDB);
 
+                // DB로부터 읽어온 모션값이 false인 경우
                 if (motionFromDB.equals("false")) {
-                    // 인체 감지 X
-                    // initWarning();
+                    // firstWarning이 갔는지 안갔는지 판단하는 조건문
+                    if (firstWarning == true) {
+                        // 타이머 남은 시간 체크하는 조건문
+                        if (isTimerEnded == true) {
+                            // 시간 남아있지 않았으면,
+                            initWarning();
+                        } else {
+                            // 시간 남아있으면, pass
+                        }
+                    }
+
+                    // DB로부터 읽어온 값이 True인 경우
                 } else if (motionFromDB.equals("true")) {
-                    // 인체가 감지된 경우 첫번째 경고
-                    giveFirstWarning();
+                    // 1차경고 처음인지 아닌지 판단하는 조건문, 첫번째 경고가 아니라면
+                    if (firstWarning == true) {
+                        giveFirstWarning();
+
+                        Log.d("timer", "타이머 초기화 후 재생성");
+                        cdtimer.cancel();
+                        cdtimer = new CountDownTimer(900000, 1000) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                                Log.d("timer", "재생성된 타이머 작동중");
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                Log.d("timer", "재생성된 타이머 종료");
+                                isTimerEnded = true;
+                                initWarning();
+                            }
+                        }.start();
+                    }
+
+                    // 1차 경고가 처음인 경우
+                    else {
+
+                        firstWarning = true;
+                        isTimerEnded = false;
+
+                        giveFirstWarning();
+
+                        // 타이머 생성, 실행
+                        Log.d("timer 생성", "타이머 생성됨");
+                        cdtimer = new CountDownTimer(900000, 1000) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                                Log.d("timer", "생성된 타이머 작동중");
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                Log.d("timer", "생성된 타이머 시간 다 돼서 종료");
+                                isTimerEnded = true;
+                                initWarning();
+                            }
+                        }.start();
+                    }
+
                 } else {
                     // 아직 연결 안됨
+                    // 구현할 필요 없음
                 }
             }
 
@@ -185,11 +250,11 @@ public class MainActivity extends AppCompatActivity {
                     // 아직 연결 안됨
                 } else {
                     // 여전히 움직임 감지되고, 온도가 30 ~ 40인 경우 2번째 경고
-                    if (motionFromDB.equals("true") && checkTemperature(temperatureFromDB) == 2  && firstWarning) {
+                    if (checkTemperature(temperatureFromDB) == 2 && firstWarning) {
                         giveSecondWarning();
                     }
                     // 여전히 움직임 감지되고, 온도가 40도 이상인 경우 3번째 경고
-                    else if (motionFromDB.equals("true") && checkTemperature(temperatureFromDB)== 3 && secondWarning) {
+                    else if (checkTemperature(temperatureFromDB) == 3 && secondWarning) {
                         giveThirdWarning();
                     }
                 }
@@ -253,17 +318,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean checkMotion(String motion) {
         if (motion.equals("true")) {
             return true;
-        }
-        else
+        } else
             return false;
     }
+
 
     public int checkTemperature(String temperature) {
         float temp = Float.parseFloat(temperature);
         if (temp < 30.0) {
             return 1;
-        }
-        else if (temp < 40.0)
+        } else if (temp < 40.0)
             return 2;
         else
             return 3;
@@ -271,13 +335,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void giveFirstWarning() {
-        notifySomething("차량 내부에 움직임이 감지되었습니다.");
         firstWarning = true;
+        notifySomething("차량 내부에 움직임이 감지되었습니다.");
     }
 
     public void giveSecondWarning() {
-            notifySomething("차량 내부에 움직임이 감지된 상태에서, 차량 내부 온도가 30도까지 상승했습니다.");
-            secondWarning = true;
+        secondWarning = true;
+        notifySomething("차량 내부에 움직임이 감지된 상태에서, 차량 내부 온도가 30도까지 상승했습니다.");
     }
 
     public void giveThirdWarning() {
@@ -306,7 +370,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public void sendSMS(UserData userData) {
         // 어반세이프] 차량 내부 온도가 위험수준에 도달하여 ' + gps + carType + 차량번호 + carNum + 신고 문자가 119에 전송되었습니다.
         String name = userData.getName();
@@ -325,8 +388,8 @@ public class MainActivity extends AppCompatActivity {
                 "차량 번호; " + carNum + "\n" +
                 "현재 차량 내부 온도: " + temperatureFromDB;
 
-        if(!TextUtils.isEmpty(msg1) && !TextUtils.isEmpty(destPhoneNum)) {
-            if(checkPermission()) {
+        if (!TextUtils.isEmpty(msg1) && !TextUtils.isEmpty(destPhoneNum)) {
+            if (checkPermission()) {
                 //Get the default SmsManager//
                 SmsManager smsManager = SmsManager.getDefault();
                 //Send the SMS//
@@ -334,7 +397,7 @@ public class MainActivity extends AppCompatActivity {
                 smsManager.sendTextMessage(destPhoneNum, null, msg2, null, null);
 
                 Toast.makeText(MainActivity.this, "신고 메시지를 전송했습니다.", Toast.LENGTH_SHORT).show();
-            }else {
+            } else {
                 Toast.makeText(MainActivity.this, "Permission denied at main", Toast.LENGTH_SHORT).show();
             }
         } //문자 여기까지
