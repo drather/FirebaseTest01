@@ -397,10 +397,10 @@ public class MainActivity extends AppCompatActivity {
         location = getAddress(this, lat, lon);
 
         String msg1 = "어반세이프]" + name + "님의 차량 내부에 어린이/반려견이 높은 온도에 방치되어 있습니다.";
-        String msg2 =  "현재 위치: " + location + "\n";
-        String msg3 = "차종: " + carType + "\n" +
+        String msg2 = "차종: " + carType + "\n" +
                 "차량 번호: " + carNum + "\n" +
                 "현재 차량 내부 온도: " + temperatureFromDB;
+        String msg3 =  "현재 위치: " + location + "\n";
 
                 if (!TextUtils.isEmpty(msg1) && !TextUtils.isEmpty(destPhoneNum)) {
                     if (checkPermission()) {
