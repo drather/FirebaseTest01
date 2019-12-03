@@ -45,6 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.MissingFormatArgumentException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String NOTIFICATION_CHANNEL_ID = "10001";
+    private static final int COUNT_TIME = 900000;
     private int count = 0;
 
     private boolean firstWarning = false;
@@ -177,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
                         if (isTimerEnded == true) {
                             // 시간 남아있지 않았으면,
                             initWarning();
+                            Log.d("FirstWarning", "fw = " + firstWarning);
                         } else {
                             // 시간 남아있으면, pass
                         }
@@ -190,10 +193,12 @@ public class MainActivity extends AppCompatActivity {
 
                         Log.d("timer", "타이머 초기화 후 재생성");
                         cdtimer.cancel();
-                        cdtimer = new CountDownTimer(900000, 1000) {
+                        //isTimerEnded = false;
+                        cdtimer = new CountDownTimer(COUNT_TIME, 1000) {
                             @Override
                             public void onTick(long millisUntilFinished) {
                                 Log.d("timer", "재생성된 타이머 작동중");
+                                Log.d("timer", "재생성 fw = " + firstWarning);
                             }
 
                             @Override
@@ -207,7 +212,6 @@ public class MainActivity extends AppCompatActivity {
 
                     // 1차 경고가 처음인 경우
                     else {
-
                         firstWarning = true;
                         isTimerEnded = false;
 
@@ -215,10 +219,11 @@ public class MainActivity extends AppCompatActivity {
 
                         // 타이머 생성, 실행
                         Log.d("timer 생성", "타이머 생성됨");
-                        cdtimer = new CountDownTimer(900000, 1000) {
+                        cdtimer = new CountDownTimer(COUNT_TIME, 1000) {
                             @Override
                             public void onTick(long millisUntilFinished) {
                                 Log.d("timer", "생성된 타이머 작동중");
+                                Log.d("timer", "생성 fw = " + firstWarning);
                             }
 
                             @Override
@@ -271,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent notificationIntent = new Intent(this, NotificationTestActivity.class);
-        notificationIntent.putExtra("notificationId", count); //전달할 값
+        notificationIntent.putExtra("notificationId", count); //전달할 값MaMaasd
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
