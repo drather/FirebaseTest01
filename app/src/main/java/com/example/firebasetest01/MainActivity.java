@@ -11,6 +11,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -45,6 +47,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 import java.util.MissingFormatArgumentException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -57,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = database.getReference();
     private FirebaseAuth firebaseAuth;
+    Geocoder geocoder;
+
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String NOTIFICATION_CHANNEL_ID = "10001";
@@ -377,37 +384,69 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendSMS(UserData userData) {
         // 어반세이프] 차량 내부 온도가 위험수준에 도달하여 ' + gps + carType + 차량번호 + carNum + 신고 문자가 119에 전송되었습니다.
+        String destPhoneNum = "01024075776";
+
         String name = userData.getName();
         String carType = userData.getCarType();
-        //String gps = userData.getGps();
         String gps = "경기도 수원시 영통구 월드컵로 206";
         String carNum = userData.getCarNum();
+        double lat = Double.parseDouble(userData.getLat());
+        double lon = Double.parseDouble(userData.getLon());
 
-        String destPhoneNum = "01024075776";
-//
+        String location = "";
+        location = getAddress(this, lat, lon);
+
         String msg1 = "어반세이프]" + name + "님의 차량 내부에 어린이/반려견이 높은 온도에 방치되어 있습니다.";
-//        String msg1 = "어반세이프]" + gps + " 에 " + carType + " 차량번호 " + carNum + " 에 아이/반려견이 높은 온도에 방치되어 있습니다.";
-
-        String msg2 = "현재 위치: " + gps + "\n" +
-                "차종: " + carType + "\n" +
-                "차량 번호; " + carNum + "\n" +
+        String msg2 =  "현재 위치: " + location + "\n";
+        String msg3 = "차종: " + carType + "\n" +
+                "차량 번호: " + carNum + "\n" +
                 "현재 차량 내부 온도: " + temperatureFromDB;
 
-        if (!TextUtils.isEmpty(msg1) && !TextUtils.isEmpty(destPhoneNum)) {
-            if (checkPermission()) {
-                //Get the default SmsManager//
-                SmsManager smsManager = SmsManager.getDefault();
-                //Send the SMS//
-                smsManager.sendTextMessage(destPhoneNum, null, msg1, null, null);
-                smsManager.sendTextMessage(destPhoneNum, null, msg2, null, null);
+                if (!TextUtils.isEmpty(msg1) && !TextUtils.isEmpty(destPhoneNum)) {
+                    if (checkPermission()) {
+                        //Get the default SmsManager//
+                        SmsManager smsManager = SmsManager.getDefault();
+                        //Send the SMS//
+                        smsManager.sendTextMessage(destPhoneNum, null, msg1, null, null);
+                        smsManager.sendTextMessage(destPhoneNum, null, msg2, null, null);
+                        smsManager.sendTextMessage(destPhoneNum, null, msg3, null, null);
 
-                Toast.makeText(MainActivity.this, "신고 메시지를 전송했습니다.", Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(MainActivity.this, "신고 메시지를 전송했습니다.", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, "Permission denied at main", Toast.LENGTH_SHORT).show();
             }
         } //문자 여기까지
     }
 
+    public String getAddress(Context mContext,double lat, double lng) {
+        String nowAddress ="현재 위치를 확인 할 수 없습니다.";
+        Geocoder geocoder = new Geocoder(mContext, Locale.KOREA);
+        List<Address> address;
+        try {
+            if (geocoder != null) {
+                //세번째 파라미터는 좌표에 대해 주소를 리턴 받는 갯수로
+                //한좌표에 대해 두개이상의 이름이 존재할수있기에 주소배열을 리턴받기 위해 최대갯수 설정
+                address = geocoder.getFromLocation(lat, lng, 1);
+
+                if (address != null && address.size() > 0) {
+                    // 주소 받아오기
+                    String currentLocationAddress = address.get(0).getAddressLine(0).toString();
+                    nowAddress  = currentLocationAddress;
+                }
+            }
+
+        } catch (IOException e) {
+            Toast.makeText(mContext, "주소를 가져 올 수 없습니다.", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+        return nowAddress;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 //    //뒤로가기 눌렀을 떄 무슨 행동 할지인데, 없어도 되지 싶다.
 //    @Override
 //    public void onBackPressed() {
