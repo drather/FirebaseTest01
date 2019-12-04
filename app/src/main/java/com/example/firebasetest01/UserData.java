@@ -14,7 +14,6 @@ public class UserData {
 
     private String motion;
     private String temperature;
-    private String gps;
     private String lat;         //위도
     private String lon;         //경도
 
@@ -30,7 +29,6 @@ public class UserData {
         this.carType = carType;
         this.motion = "Not Connected";
         this.temperature = "Not Connected";
-        this.gps = "";
         this.lat = "";
         this.lon = "";
     }
@@ -89,10 +87,6 @@ public class UserData {
 
     public String getTemperature() {
         return temperature;
-    }
-
-    public String getGps() {
-        return gps;
     }
 
 

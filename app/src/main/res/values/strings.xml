@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FirebaseTest01</string>
+    <string name="app_name">어반세이프</string>
 
     <string name="email">이메일</string>
     <string name="password">비밀번호</string>

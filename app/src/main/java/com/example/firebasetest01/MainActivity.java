@@ -383,12 +383,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void sendSMS(UserData userData) {
-        // 어반세이프] 차량 내부 온도가 위험수준에 도달하여 ' + gps + carType + 차량번호 + carNum + 신고 문자가 119에 전송되었습니다.
         String destPhoneNum = "01024075776";
 
         String name = userData.getName();
         String carType = userData.getCarType();
-        String gps = "경기도 수원시 영통구 월드컵로 206";
         String carNum = userData.getCarNum();
         double lat = Double.parseDouble(userData.getLat());
         double lon = Double.parseDouble(userData.getLon());
@@ -410,7 +408,6 @@ public class MainActivity extends AppCompatActivity {
                         smsManager.sendTextMessage(destPhoneNum, null, msg1, null, null);
                         smsManager.sendTextMessage(destPhoneNum, null, msg2, null, null);
                         smsManager.sendTextMessage(destPhoneNum, null, msg3, null, null);
-
 
                         Toast.makeText(MainActivity.this, "신고 메시지를 전송했습니다.", Toast.LENGTH_SHORT).show();
             } else {
