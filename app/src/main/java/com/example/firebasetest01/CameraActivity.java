@@ -1,7 +1,9 @@
 package com.example.firebasetest01;
 
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,33 +17,31 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class CameraActivity extends AppCompatActivity {
-    final private String TAG = "Camera_Activity";
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = database.getReference();
+
+    private WebView mWebView;
+    //private final String camAddr = "http://google.com";
+    private final String camAddr = "http://arvansave.iptime.org/stream";
+    private final String customNoNetworkHTML = "<html><body style=\"padding:15px; text-align:center; font-size: 24px \">Go to wifi settings and chose CamRide to connect <br><br><br> <input type=\"button\" style=\"width: 80%; padding: 10px;\" value=\"Refresh App\" onClick=window.location.replace('" + camAddr + "');></body></html>";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        mWebView = (WebView) findViewById(R.id.webView);
 
-        Intent intent = getIntent();
-        String ID = intent.getStringExtra("userEmail");
-
-        databaseReference.child("User List").child(ID).child("image").addListenerForSingleValueEvent(new ValueEventListener() {
-
+        //adding custom error page (for when wifi is off)
+        /*mWebView.setWebViewClient(new WebViewClient() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-//                Object data = dataSnapshot.getValue();
-                ImageView imageView_cctv = findViewById(R.id.imageView_cctv);
-//              이부분에 저장된 이미지 받아오는 작업 필요함. 온도 받아오는것과 완전 같으니 참고
-                //다만, 이미지가 어떤 형식으로 저장될지를 모르겠다.
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                //Log.i("BOBO## WEB_VIEW_TEST", "error code:" + errorCode);
+                //Toast.makeText(getApplicationContext(), "Error occured, please check newtwork connectivity", Toast.LENGTH_SHORT).show();
+                view.loadData(customNoNetworkHTML, "text/html", "UTF-8");
+                super.onReceivedError(view, errorCode, description, failingUrl);
             }
+        });*/
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        //WebSettings webSettings = mWebView.getSettings();
+        // webSettings.setJavaScriptEnabled(true);
+        mWebView.loadUrl(camAddr);
     }
-
 }

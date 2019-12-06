@@ -398,18 +398,17 @@ public class MainActivity extends AppCompatActivity {
         String msg2 = "차종: " + carType + "\n" +
                 "차량 번호: " + carNum + "\n" +
                 "현재 차량 내부 온도: " + temperatureFromDB;
-        String msg3 =  "현재 위치: " + location + "\n";
+        String msg3 = "현재 위치: " + location + "\n";
+        if (!TextUtils.isEmpty(msg1) && !TextUtils.isEmpty(destPhoneNum)) {
+            if (checkPermission()) {
+                //Get the default SmsManager//
+                SmsManager smsManager = SmsManager.getDefault();
+                //Send the SMS//
+                smsManager.sendTextMessage(destPhoneNum, null, msg1, null, null);
+                smsManager.sendTextMessage(destPhoneNum, null, msg2, null, null);
+                smsManager.sendTextMessage(destPhoneNum, null, msg3, null, null);
 
-                if (!TextUtils.isEmpty(msg1) && !TextUtils.isEmpty(destPhoneNum)) {
-                    if (checkPermission()) {
-                        //Get the default SmsManager//
-                        SmsManager smsManager = SmsManager.getDefault();
-                        //Send the SMS//
-                        smsManager.sendTextMessage(destPhoneNum, null, msg1, null, null);
-                        smsManager.sendTextMessage(destPhoneNum, null, msg2, null, null);
-                        smsManager.sendTextMessage(destPhoneNum, null, msg3, null, null);
-
-                        Toast.makeText(MainActivity.this, "신고 메시지를 전송했습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "신고 메시지를 전송했습니다.", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, "Permission denied at main", Toast.LENGTH_SHORT).show();
             }
