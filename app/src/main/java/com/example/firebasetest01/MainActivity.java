@@ -266,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
                         giveSecondWarning();
                     }
                     // 여전히 움직임 감지되고, 온도가 40도 이상인 경우 3번째 경고
-                    else if (checkTemperature(temperatureFromDB) == 3 && secondWarning) {
+                    else if (checkTemperature(temperatureFromDB) == 3 && firstWarning) {
                         giveThirdWarning();
                     }
                 }
@@ -337,9 +337,9 @@ public class MainActivity extends AppCompatActivity {
 
     public int checkTemperature(String temperature) {
         float temp = Float.parseFloat(temperature);
-        if (temp < 30.0) {
+        if (temp < 20.00) {
             return 1;
-        } else if (temp < 40.0)
+        } else if (temp < 24.00)
             return 2;
         else
             return 3;
@@ -388,8 +388,10 @@ public class MainActivity extends AppCompatActivity {
         String name = userData.getName();
         String carType = userData.getCarType();
         String carNum = userData.getCarNum();
-        double lat = Double.parseDouble(userData.getLat());
-        double lon = Double.parseDouble(userData.getLon());
+        //double lat = Double.parseDouble(userData.getLat());
+        //double lon = Double.parseDouble(userData.getLon());
+        double lat = 37.284519;
+        double lon = 127.044393;
 
         String location = "";
         location = getAddress(this, lat, lon);
@@ -432,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             Toast.makeText(mContext, "주소를 가져 올 수 없습니다.", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
