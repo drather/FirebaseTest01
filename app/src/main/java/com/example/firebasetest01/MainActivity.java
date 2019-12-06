@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.logo)) //BitMap 이미지 요구
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.application_icon)) //BitMap 이미지 요구
                 .setContentTitle("어반세이프") //상태바 드래그시 보이는 타이틀
                 .setContentText(msg) // 상태바 드래그시 보이는 서브타이틀
                 // 더 많은 내용이라서 일부만 보여줘야 하는 경우 아래 주석을 제거하면 setContentText에 있는 문자열 대신 아래 문자열을 보여줌

@@ -21,7 +21,7 @@ public class LoadingActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final int PERMISSION_REQUEST_CODE_2 = 2;
 
-    private final int SPLASH_DISPLAY_TIME = 5000;
+    private final int SPLASH_DISPLAY_TIME = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
