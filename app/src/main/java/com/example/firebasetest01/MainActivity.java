@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String NOTIFICATION_CHANNEL_ID = "10001";
-    private static final int COUNT_TIME = 900000;
+    private static final int COUNT_TIME = 60000;
     private int count = 0;
 
     private boolean firstWarning = false;
@@ -390,8 +390,8 @@ public class MainActivity extends AppCompatActivity {
         String carNum = userData.getCarNum();
         //double lat = Double.parseDouble(userData.getLat());
         //double lon = Double.parseDouble(userData.getLon());
-        double lat = 37.284519;
-        double lon = 127.044393;
+        double lat = 37.284374;
+        double lon = 127.044471;
 
         String location = "";
         location = getAddress(this, lat, lon);

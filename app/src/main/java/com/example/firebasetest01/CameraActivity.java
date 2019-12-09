@@ -3,6 +3,7 @@ package com.example.firebasetest01;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +21,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private WebView mWebView;
     //private final String camAddr = "http://google.com";
-    private final String camAddr = "http://arvansave.iptime.org/stream";
+    private final String camAddr = "http://192.168.43.111/stream";
     private final String customNoNetworkHTML = "<html><body style=\"padding:15px; text-align:center; font-size: 24px \">Go to wifi settings and chose CamRide to connect <br><br><br> <input type=\"button\" style=\"width: 80%; padding: 10px;\" value=\"Refresh App\" onClick=window.location.replace('" + camAddr + "');></body></html>";
 
     @Override
@@ -43,5 +44,7 @@ public class CameraActivity extends AppCompatActivity {
         //WebSettings webSettings = mWebView.getSettings();
         // webSettings.setJavaScriptEnabled(true);
         mWebView.loadUrl(camAddr);
+        Log.d("Camera", "ㅇㅇㅇㅇ");
+
     }
 }
