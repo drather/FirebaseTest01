@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String NOTIFICATION_CHANNEL_ID = "10001";
-    private static final int COUNT_TIME = 60000;
+    private static final int COUNT_TIME = 1000 * 60 * 10;
     private int count = 0;
 
     private boolean firstWarning = false;
@@ -83,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
     Timer timer = new Timer();
 
     CountDownTimer cdtimer = null;
-    boolean isTimerEnded;
+    boolean isFirstTimerEnded;
+    boolean isSecondTimerEnded;
+    boolean isThirdTimerEnded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +172,9 @@ public class MainActivity extends AppCompatActivity {
                 alBuilder.show(); // AlertDialog.Bulider로 만든 AlertDialog를 보여준다.
             }
         });
+        //모션값 초기 설정
+        databaseReference.child("User List").child(ID).child("motion").setValue("false");
+
         // 모션 값 받아오는 부분
         databaseReference.child("User List").child(ID).child("motion").addValueEventListener(new ValueEventListener() {
             @Override
@@ -178,41 +183,46 @@ public class MainActivity extends AppCompatActivity {
                 motionFromDB = dataSnapshot.getValue().toString();
                 Log.d(TAG, "motionFromDB: " + motionFromDB);
 
-                // DB로부터 읽어온 모션값이 false인 경우
+                // DB로부터 읽어온 모션값이 false인 경우 (1)
                 if (motionFromDB.equals("false")) {
                     // firstWarning이 갔는지 안갔는지 판단하는 조건문
                     if (firstWarning == true) {
                         // 타이머 남은 시간 체크하는 조건문
-                        if (isTimerEnded == true) {
+                        if (isFirstTimerEnded == true) {
                             // 시간 남아있지 않았으면,
                             initWarning();
-                            Log.d("FirstWarning", "fw = " + firstWarning);
+                            Log.d("FirstWarning", "firstwarning = " + firstWarning);
                         } else {
                             // 시간 남아있으면, pass
                         }
                     }
 
-                    // DB로부터 읽어온 값이 True인 경우
+                    // DB로부터 읽어온 값이 True인 경우 (2)
                 } else if (motionFromDB.equals("true")) {
                     // 1차경고 처음인지 아닌지 판단하는 조건문, 첫번째 경고가 아니라면
                     if (firstWarning == true) {
-                        giveFirstWarning();
+//                        giveFirstWarning();
 
                         Log.d("timer", "타이머 초기화 후 재생성");
                         cdtimer.cancel();
-                        //isTimerEnded = false;
+                        isFirstTimerEnded = false;
                         cdtimer = new CountDownTimer(COUNT_TIME, 1000) {
                             @Override
                             public void onTick(long millisUntilFinished) {
-                                Log.d("timer", "재생성된 타이머 작동중");
-                                Log.d("timer", "재생성 fw = " + firstWarning);
+                                Log.d("timer", "재생성된 1차경고 타이머 작동중");
+                                Log.d("timer", "재생성 firstWarning = " + firstWarning);
                             }
 
                             @Override
                             public void onFinish() {
-                                Log.d("timer", "재생성된 타이머 종료");
-                                isTimerEnded = true;
+                                Log.d("timer", "재생성된 1차 타이머 종료");
+                                isFirstTimerEnded = true;
                                 initWarning();
+                                Log.d("timer", "firstWarning: " + firstWarning + '\n');
+                                Log.d("timer", "secondWarning: " + secondWarning + '\n');
+                                Log.d("timer", "thirdWarning: " + thirdWarning + '\n');
+
+
                             }
                         }.start();
                     }
@@ -220,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
                     // 1차 경고가 처음인 경우
                     else {
                         firstWarning = true;
-                        isTimerEnded = false;
+                        isFirstTimerEnded = false;
 
                         giveFirstWarning();
 
@@ -236,8 +246,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onFinish() {
                                 Log.d("timer", "생성된 타이머 시간 다 돼서 종료");
-                                isTimerEnded = true;
+                                isFirstTimerEnded = true;
                                 initWarning();
+                                Log.d("timer", "firstWarning: " + firstWarning + '\n');
+                                Log.d("timer", "secondWarning: " + secondWarning + '\n');
+                                Log.d("timer", "thirdWarning: " + thirdWarning + '\n');
                             }
                         }.start();
                     }
@@ -258,18 +271,89 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 temperatureFromDB = dataSnapshot.getValue().toString();
-                if (temperatureFromDB.equals("Not Connected")) {
-                    // 아직 연결 안됨
-                } else {
-                    // 여전히 움직임 감지되고, 온도가 30 ~ 40인 경우 2번째 경고
-                    if (checkTemperature(temperatureFromDB) == 2 && firstWarning) {
-                        giveSecondWarning();
-                    }
-                    // 여전히 움직임 감지되고, 온도가 40도 이상인 경우 3번째 경고
-                    else if (checkTemperature(temperatureFromDB) == 3 && firstWarning) {
-                        giveThirdWarning();
+
+                Log.d("algorithm", "들어간다");
+                // 3차 경고 보내기 위한 코드. 순서상으로 위에 있지만, 2차 경고가 진행 되고난 다음에야 진행됨
+                if (secondWarning == true) {
+                    Log.d("algorithm", "secondWarning이 true인 경우 진입");
+                    if (checkTemperature(temperatureFromDB) == 3) {
+                        if (thirdWarning == true) {
+                            Log.d("algorithm", "SW = TRUE && 3차경고 이미보냄");
+
+                            //이미 경고 보냈으므로 아무것도 안함
+                        }
+                        else {
+                            Log.d("algorithm", "3차경고 보내야함");
+                            thirdWarning = true;
+                            giveThirdWarning();
+                            // 120초 후 thirdWarning이 초기화 된다.
+                            cdtimer = new CountDownTimer(1000 * 120, 1000) {
+                                @Override
+                                public void onTick(long millisUntilFinished) {
+
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    Log.d("cdtimer", "thirdTimer 초기화");
+                                    thirdWarning = false;
+                                }
+                            };
+                        }
                     }
                 }
+                // 2차 경고 보내기 위한 코드
+                // 1차 경고가 활성화 되어있는지 판단하는 조건문
+                else if (firstWarning == true) {
+                    // 차 내 온도를 확인해서, 2차 경고 여부를 판단하는 조건문
+                    if (checkTemperature(temperatureFromDB) == 2) {
+                        // 2차 경고를 이미 보냈는지 확인하는 조건문
+                        if (secondWarning == true) {
+                            // 2차경고를 이미 보냈기 때문에 아무것도 하지 않음
+                        }
+                        else {
+                            // 2차 푸시 알람 전송
+                            secondWarning = true;
+                            giveSecondWarning();
+                            // 타이머를 추가할까? 한다면 밑에 코드
+//                            cdtimer.cancel();
+//                            isSecondTimerEnded = false;
+//                            cdtimer = new CountDownTimer(COUNT_TIME, 1000) {
+//                                @Override
+//                                public void onTick(long millisUntilFinished) {
+//                                    Log.d("timer", "생성된 2차경고 타이머 작동중");
+//                                    Log.d("timer", "생성 secondWarning = " + secondWarning);
+//                                }
+//
+//                                @Override
+//                                public void onFinish() {
+//                                    Log.d("timer", "생성된 2차 경고 타이머 시간 다 돼서 종료");
+//                                    isSecondTimerEnded = true;
+//                                    initWarning();
+//                                }
+//                            }.start();
+                            // 타이머 여기까지
+                        }
+                    }
+                }
+
+
+
+
+                // 여기부터는 원래 코드
+//                if (temperatureFromDB.equals("Not Connected")) {
+//                    // 아직 연결 안됨
+//                } else {
+//                    // 여전히 움직임 감지되고, 온도가 30 ~ 40인 경우 2번째 경고
+//                    if (checkTemperature(temperatureFromDB) == 2 && firstWarning) {
+//                        giveSecondWarning();
+//                    }
+//                    // 여전히 움직임 감지되고, 온도가 40도 이상인 경우 3번째 경고
+//                    else if (checkTemperature(temperatureFromDB) == 3 && firstWarning) {
+//                        giveThirdWarning();
+//                    }
+//                }
+                // 여기까지 원래코드
             }
 
             @Override
@@ -337,9 +421,9 @@ public class MainActivity extends AppCompatActivity {
 
     public int checkTemperature(String temperature) {
         float temp = Float.parseFloat(temperature);
-        if (temp < 20.00) {
+        if (temp < 27.00) {
             return 1;
-        } else if (temp < 24.00)
+        } else if (temp < 33.00)
             return 2;
         else
             return 3;
@@ -347,17 +431,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void giveFirstWarning() {
-        firstWarning = true;
         notifySomething("차량 내부에 움직임이 감지되었습니다.");
     }
 
     public void giveSecondWarning() {
-        secondWarning = true;
         notifySomething("차량 내부에 움직임이 감지된 상태에서, 차량 내부 온도가 30도까지 상승했습니다.");
     }
 
     public void giveThirdWarning() {
-        thirdWarning = true;
         databaseReference.child("User List").child(ID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             // UserData 정보 받아오기
@@ -378,7 +459,7 @@ public class MainActivity extends AppCompatActivity {
     public void initWarning() {
         firstWarning = false;
         secondWarning = false;
-        thirdWarning = false;
+        //thirdWarning = false;
     }
 
 
@@ -390,11 +471,13 @@ public class MainActivity extends AppCompatActivity {
         String carNum = userData.getCarNum();
         //double lat = Double.parseDouble(userData.getLat());
         //double lon = Double.parseDouble(userData.getLon());
-        double lat = 37.284374;
-        double lon = 127.044471;
+//        double lat = 37.284374;
+//        double lon = 127.044471;
 
         String location = "";
-        location = getAddress(this, lat, lon);
+        // location은 위도와 경도값을 파라미터로 받아서, 주소값을 리턴한다. 근데, 시연할거니깐 그냥 팔달관으로 함
+        // location = getAddress(this, lat, lon);
+        location = "경기도 수원시 영통구 월드컵로 206 팔달관";
 
         String msg1 = "어반세이프]" + name + "님의 차량 내부에 어린이/반려견이 높은 온도에 방치되어 있습니다.";
         String msg2 = "차종: " + carType + "\n" +
